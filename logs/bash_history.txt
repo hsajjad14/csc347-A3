@@ -1,0 +1,73 @@
+    1  cat /etc/shadow
+    2  users
+    3  sudo cat /etc/shadow
+    4  sudo cat /etc/shadow | grep root
+    5  sudo /usr/sbin/tripwire --check
+    6  sudo tripwire --check
+    7  cd /var/lib/tripwire
+    8  ls
+    9  sudo ls
+   10  cd ..
+   11  ls
+   12  cd ..
+   13  ls
+   14  find / -type d -name "tripwire"
+   15  cd /usr/share/doc/tripwire
+   16  ls
+   17  cat /var/log/messages
+   18  sed '/Nov 17/d' /var/log/messages
+   19  ls
+   20  cd ~home
+   21  cd ~arnold
+   22  ls
+   23  pwd
+   24  ls
+   25  mkdri a3
+   26  mkdir a3
+   27  cd a3
+   28  sed '/Nov 17/d' /var/log/messages > general_attacker_logs.txt
+   29  ls
+   30  cat general_attacker_logs.txt
+   31  cat general_attacker_logs.txt | wc -l
+   32  ls
+   33  mv general_attacker_logs.txt general_messages_logs.txt
+   34  ls
+   35  cat /var/log/auth.log
+   36  cat /var/log/auth.log | wc -l
+   37  cat /var/log/auth.log > log_auth.txt
+   38  ls
+   39  cat /var/log/kern.log > log_kernel.txt
+   40  cat /var/log/maillog > log_mail.txt
+   41  /var/log/maillog
+   42  cat /var/log/maillog
+   43  ls /var/log
+   44  cat /var/log/mail.log
+   45  ls /var/log
+   46  ls /var/log 
+   47  cat dmesg
+   48  cat /var/log/dmesg
+   49  ls /var/log 
+   50  ls
+   51  cat log_mail.txt
+   52  cat /var/log/mail.log > log_mail.txt
+   53  cat /var/log/user.log
+   54  cat /var/log/user.log > log_messages_about_all_user_level_logs.txt
+   55  last
+   56  last > login_history.txt
+   57  cat /var/run/utmp
+   58  cat /var/run/1tmp
+   59  cat /var/run/wtmp
+   60  cat /var/log/wtmp
+   61  cat /var/log/btmp
+   62  lastb
+   63  lastb > bad_logins.txt
+   64  ls
+   65  cat /var/log/secure
+   66  cat /var/log/auth.log
+   67  who
+   68  .bash_history
+   69  cat .bash_history
+   70  cat ~/.bash_history
+   71  history
+   72  ls -al ~/.bash_history
+   73  history > bash_history.txt

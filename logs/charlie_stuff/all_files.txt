@@ -1,0 +1,14 @@
+/home/charlie:
+total 24
+drwxr-xr-x 3 charlie charlie 4096 2020-11-11 13:39 .
+drwxr-xr-x 7 root    root    4096 2020-11-11 10:14 ..
+-rw-r--r-- 1 charlie charlie  220 2020-11-11 10:14 .bash_logout
+-rw-r--r-- 1 charlie charlie 2940 2020-11-11 10:14 .bashrc
+-rw-r--r-- 1 charlie charlie  586 2020-11-11 10:14 .profile
+drwx------ 2 charlie charlie 4096 2020-11-11 13:39 .ssh
+
+/home/charlie/.ssh:
+total 12
+drwx------ 2 charlie charlie 4096 2020-11-11 13:39 .
+drwxr-xr-x 3 charlie charlie 4096 2020-11-11 13:39 ..
+-rw------- 1 charlie charlie  735 2020-11-11 13:39 authorized_keys

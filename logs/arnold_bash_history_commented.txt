@@ -1,0 +1,15 @@
+shutdown -h now
+adduser charlie          # add user charlie
+usermod -a -G admin bill      # add bill to the admin group
+history | grep -ie tripwire     # check history for tripwire
+tripwire --check              # run tripwire
+tripwire --check | more
+tripwire --update              # update the tripwire database
+ls /var/lib/tripwire/report/ubuntuA3-2020111*       # check if report exists
+tripwire --update /var/lib/tripwire/report/ubuntuA3-20201111-102142.twr
+tripwire --help
+tripwire --update --twrfile /var/lib/tripwire/report/ubuntuA3-20201111-102142.twr
+shutdown -h now
+tripwire --check
+ls
+shutdown -h now

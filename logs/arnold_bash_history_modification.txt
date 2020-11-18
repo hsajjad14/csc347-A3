@@ -1,0 +1,7 @@
+  File: `/home/arnold/.bash_history'
+  Size: 412       	Blocks: 8          IO Block: 4096   regular file
+Device: 801h/2049d	Inode: 327692      Links: 1
+Access: (0600/-rw-------)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2020-11-11 10:30:04.000000000 -0500
+Modify: 2020-11-11 10:30:04.000000000 -0500
+Change: 2020-11-11 10:30:04.000000000 -0500

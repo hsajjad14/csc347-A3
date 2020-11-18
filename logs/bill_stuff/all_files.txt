@@ -1,0 +1,27 @@
+/home/bill:
+total 2260
+drwxr-xr-x 4 bill bill    4096 2020-11-13 08:37 .
+drwxr-xr-x 7 root root    4096 2020-11-11 10:14 ..
+-rw------- 1 bill bill     600 2020-11-13 08:41 .bash_history
+-rw-r--r-- 1 bill bill     220 2020-11-09 23:03 .bash_logout
+-rw-r--r-- 1 bill bill    2940 2020-11-09 23:03 .bashrc
+drwx------ 2 root root    4096 2020-11-13 08:36 .gnupg
+-rw-r--r-- 1 root root 2273725 2020-11-13 08:36 myPrivateFiles
+-rw-r--r-- 1 bill bill     586 2020-11-09 23:03 .profile
+drwx------ 2 bill bill    4096 2020-11-11 13:40 .ssh
+-rw-r--r-- 1 bill bill       0 2020-11-11 10:17 .sudo_as_admin_successful
+
+/home/bill/.gnupg:
+total 24
+drwx------ 2 root root 4096 2020-11-13 08:36 .
+drwxr-xr-x 4 bill bill 4096 2020-11-13 08:37 ..
+-rw------- 1 root root 9417 2020-11-13 08:33 gpg.conf
+-rw------- 1 root root    0 2020-11-13 08:33 pubring.gpg
+-rw------- 1 root root  600 2020-11-13 08:36 random_seed
+-rw------- 1 root root    0 2020-11-13 08:33 secring.gpg
+
+/home/bill/.ssh:
+total 12
+drwx------ 2 bill bill 4096 2020-11-11 13:40 .
+drwxr-xr-x 4 bill bill 4096 2020-11-13 08:37 ..
+-rw------- 1 bill bill  735 2020-11-11 13:40 authorized_keys

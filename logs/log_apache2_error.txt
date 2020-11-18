@@ -1,0 +1,32 @@
+[Mon Nov 09 22:46:44 2020] [notice] Apache/2.2.8 (Ubuntu) PHP/5.2.4-2ubuntu5.10 with Suhosin-Patch configured -- resuming normal operations
+[Mon Nov 09 23:02:15 2020] [error] [client 172.16.107.136] File does not exist: /var/www/favicon.ico
+[Tue Nov 10 10:05:08 2020] [error] [client 172.16.107.136] File does not exist: /var/www/favicon.ico
+[Tue Nov 10 10:05:08 2020] [error] [client 172.16.107.136] File does not exist: /var/www/favicon.ico
+[Tue Nov 10 10:09:16 2020] [notice] Graceful restart requested, doing restart
+[Tue Nov 10 10:09:16 2020] [notice] Apache/2.2.8 (Ubuntu) PHP/5.2.4-2ubuntu5.27 with Suhosin-Patch configured -- resuming normal operations
+[Tue Nov 10 10:09:26 2020] [error] [client 172.16.107.136] File does not exist: /var/www/favicon.ico
+[Tue Nov 10 10:09:44 2020] [notice] caught SIGTERM, shutting down
+[Tue Nov 10 10:09:47 2020] [notice] Apache/2.2.8 (Ubuntu) PHP/5.2.4-2ubuntu5.27 with Suhosin-Patch configured -- resuming normal operations
+[Tue Nov 10 10:09:54 2020] [error] [client 172.16.107.136] File does not exist: /var/www/favicon.ico
+[Tue Nov 10 10:15:55 2020] [error] [client 172.16.107.136] File does not exist: /var/www/favicon.ico
+[Tue Nov 10 16:12:28 2020] [notice] caught SIGWINCH, shutting down gracefully
+[Tue Nov 10 16:13:20 2020] [notice] Apache/2.2.8 (Ubuntu) PHP/5.2.4-2ubuntu5.27 with Suhosin-Patch configured -- resuming normal operations
+[Tue Nov 10 16:21:59 2020] [error] [client 172.16.107.1] File does not exist: /var/www/favicon.ico, referer: http://172.16.107.138/fourFours/index.php
+[Tue Nov 10 18:39:22 2020] [notice] caught SIGWINCH, shutting down gracefully
+[Tue Nov 10 18:53:18 2020] [notice] Apache/2.2.8 (Ubuntu) PHP/5.2.4-2ubuntu5.27 with Suhosin-Patch configured -- resuming normal operations
+[Tue Nov 10 18:55:29 2020] [notice] caught SIGWINCH, shutting down gracefully
+[Tue Nov 10 18:56:10 2020] [notice] Apache/2.2.8 (Ubuntu) PHP/5.2.4-2ubuntu5.27 with Suhosin-Patch configured -- resuming normal operations
+[Tue Nov 10 19:07:09 2020] [notice] caught SIGWINCH, shutting down gracefully
+[Tue Nov 10 19:08:04 2020] [notice] Apache/2.2.8 (Ubuntu) PHP/5.2.4-2ubuntu5.27 with Suhosin-Patch configured -- resuming normal operations
+[Tue Nov 10 19:48:09 2020] [notice] Apache/2.2.8 (Ubuntu) PHP/5.2.4-2ubuntu5.27 with Suhosin-Patch configured -- resuming normal operations
+[Tue Nov 10 19:56:12 2020] [notice] caught SIGWINCH, shutting down gracefully
+[Wed Nov 11 10:12:31 2020] [notice] Apache/2.2.8 (Ubuntu) PHP/5.2.4-2ubuntu5.27 with Suhosin-Patch configured -- resuming normal operations
+[Wed Nov 11 10:27:12 2020] [notice] caught SIGWINCH, shutting down gracefully
+[Wed Nov 11 10:28:11 2020] [notice] Apache/2.2.8 (Ubuntu) PHP/5.2.4-2ubuntu5.27 with Suhosin-Patch configured -- resuming normal operations
+[Wed Nov 11 10:29:59 2020] [notice] caught SIGWINCH, shutting down gracefully
+[Wed Nov 11 12:43:44 2020] [notice] Apache/2.2.8 (Ubuntu) PHP/5.2.4-2ubuntu5.27 with Suhosin-Patch configured -- resuming normal operations
+[Fri Nov 13 08:14:26 2020] [notice] Apache/2.2.8 (Ubuntu) PHP/5.2.4-2ubuntu5.27 with Suhosin-Patch configured -- resuming normal operations
+[Fri Nov 13 08:38:29 2020] [notice] caught SIGWINCH, shutting down gracefully
+[Fri Nov 13 08:41:14 2020] [notice] Apache/2.2.8 (Ubuntu) PHP/5.2.4-2ubuntu5.27 with Suhosin-Patch configured -- resuming normal operations
+[Fri Nov 13 08:41:41 2020] [notice] caught SIGWINCH, shutting down gracefully
+[Tue Nov 17 11:43:41 2020] [notice] Apache/2.2.8 (Ubuntu) PHP/5.2.4-2ubuntu5.27 with Suhosin-Patch configured -- resuming normal operations

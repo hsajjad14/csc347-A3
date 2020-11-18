@@ -1,0 +1,49 @@
+Nov  9 22:46:44 ubuntuA3 postfix/master[5444]: daemon started -- version 2.5.1, configuration /etc/postfix
+Nov  9 22:46:44 ubuntuA3 dovecot: Dovecot v1.0.10 starting up
+Nov  9 22:46:44 ubuntuA3 dovecot: Generating Diffie-Hellman parameters for the first time. This may take a while..
+Nov  9 22:46:45 ubuntuA3 dovecot: ssl-build-param: SSL parameters regeneration completed
+Nov  9 23:13:30 ubuntuA3 postfix/smtpd[5753]: connect from localhost[127.0.0.1]
+Nov  9 23:13:30 ubuntuA3 postfix/smtpd[5753]: lost connection after CONNECT from localhost[127.0.0.1]
+Nov  9 23:13:30 ubuntuA3 postfix/smtpd[5753]: disconnect from localhost[127.0.0.1]
+Nov 10 16:12:28 ubuntuA3 postfix/master[5444]: terminating on signal 15
+Nov 10 16:13:20 ubuntuA3 postfix/master[5448]: daemon started -- version 2.5.1, configuration /etc/postfix
+Nov 10 16:13:20 ubuntuA3 dovecot: Dovecot v1.0.10 starting up
+Nov 10 18:39:22 ubuntuA3 postfix/master[5448]: terminating on signal 15
+Nov 10 18:53:18 ubuntuA3 postfix/master[5469]: daemon started -- version 2.5.1, configuration /etc/postfix
+Nov 10 18:53:18 ubuntuA3 dovecot: Dovecot v1.0.10 starting up
+Nov 10 18:55:29 ubuntuA3 postfix/master[5469]: terminating on signal 15
+Nov 10 18:56:10 ubuntuA3 postfix/master[5475]: daemon started -- version 2.5.1, configuration /etc/postfix
+Nov 10 18:56:10 ubuntuA3 dovecot: Dovecot v1.0.10 starting up
+Nov 10 19:07:09 ubuntuA3 postfix/master[5475]: terminating on signal 15
+Nov 10 19:08:04 ubuntuA3 postfix/master[5436]: daemon started -- version 2.5.1, configuration /etc/postfix
+Nov 10 19:08:04 ubuntuA3 dovecot: Dovecot v1.0.10 starting up
+Nov 10 19:48:09 ubuntuA3 postfix/master[5442]: daemon started -- version 2.5.1, configuration /etc/postfix
+Nov 10 19:48:09 ubuntuA3 dovecot: Dovecot v1.0.10 starting up
+Nov 10 19:56:12 ubuntuA3 postfix/master[5442]: terminating on signal 15
+Nov 11 10:12:30 ubuntuA3 postfix/master[5444]: daemon started -- version 2.5.1, configuration /etc/postfix
+Nov 11 10:12:30 ubuntuA3 dovecot: Dovecot v1.0.10 starting up
+Nov 11 10:27:12 ubuntuA3 postfix/master[5444]: terminating on signal 15
+Nov 11 10:28:11 ubuntuA3 postfix/master[5471]: daemon started -- version 2.5.1, configuration /etc/postfix
+Nov 11 10:28:11 ubuntuA3 dovecot: Dovecot v1.0.10 starting up
+Nov 11 10:29:59 ubuntuA3 postfix/master[5471]: terminating on signal 15
+Nov 11 12:43:44 ubuntuA3 postfix/master[5443]: daemon started -- version 2.5.1, configuration /etc/postfix
+Nov 11 12:43:44 ubuntuA3 dovecot: Dovecot v1.0.10 starting up
+Nov 13 08:14:26 ubuntuA3 postfix/master[5477]: daemon started -- version 2.5.1, configuration /etc/postfix
+Nov 13 08:14:26 ubuntuA3 dovecot: Dovecot v1.0.10 starting up
+Nov 13 08:38:29 ubuntuA3 postfix/master[5477]: terminating on signal 15
+Nov 13 08:41:14 ubuntuA3 postfix/master[5448]: daemon started -- version 2.5.1, configuration /etc/postfix
+Nov 13 08:41:14 ubuntuA3 dovecot: Dovecot v1.0.10 starting up
+Nov 13 08:41:41 ubuntuA3 postfix/master[5448]: terminating on signal 15
+Nov 17 11:43:41 ubuntuA3 postfix/master[5476]: daemon started -- version 2.5.1, configuration /etc/postfix
+Nov 17 11:43:41 ubuntuA3 dovecot: Dovecot v1.0.10 starting up
+Nov 17 11:43:41 ubuntuA3 postfix/pickup[5481]: 6D2D22A5FA: uid=0 from=<root>
+Nov 17 11:43:41 ubuntuA3 postfix/cleanup[5550]: 6D2D22A5FA: message-id=<20201117164341.6D2D22A5FA@ubuntuA3.localdomain>
+Nov 17 11:43:41 ubuntuA3 postfix/qmgr[5483]: 6D2D22A5FA: from=<root@ubuntuA3.localdomain>, size=418, nrcpt=1 (queue active)
+Nov 17 11:43:41 ubuntuA3 postfix/pickup[5481]: 765EB2A5C4: uid=0 from=<root>
+Nov 17 11:43:41 ubuntuA3 postfix/cleanup[5550]: 765EB2A5C4: message-id=<20201117164341.765EB2A5C4@ubuntuA3.localdomain>
+Nov 17 11:43:41 ubuntuA3 postfix/qmgr[5483]: 765EB2A5C4: from=<root@ubuntuA3.localdomain>, size=418, nrcpt=1 (queue active)
+Nov 17 11:43:42 ubuntuA3 postfix/local[5571]: 6D2D22A5FA: to=<arnold@ubuntuA3.localdomain>, orig_to=<root>, relay=local, delay=1.1, delays=0.06/0.02/0/1, dsn=2.0.0, status=sent (delivered to command: procmail -a "$EXTENSION")
+Nov 17 11:43:42 ubuntuA3 postfix/qmgr[5483]: 6D2D22A5FA: removed
+Nov 17 11:43:49 ubuntuA3 postfix/local[5575]: 765EB2A5C4: to=<arnold@ubuntuA3.localdomain>, orig_to=<root>, relay=local, delay=8.1, delays=0.06/0.02/0/8, dsn=2.0.0, status=sent (delivered to command: procmail -a "$EXTENSION")
+Nov 17 11:43:49 ubuntuA3 postfix/qmgr[5483]: 765EB2A5C4: removed
+Nov 17 11:43:55 ubuntuA3 dovecot: ssl-build-param: SSL parameters regeneration completed

@@ -1,0 +1,111 @@
+
+
+	logs:
+	https://superuser.com/questions/565927/differences-in-var-log-syslog-dmesg-messages-log-files
+
+	ls /var/log
+	journalctl -u network.service # network service
+	journalctl -u ssh.service # ssh
+
+	all in:
+	cd /var/log
+	/var/log/messages : General message and system related stuff
+	 /var/log/auth.log : Authenication logs
+	 /var/log/kern.log : Kernel logs
+	 /var/log/cron.log : Crond logs (cron job)
+	 /var/log/maillog : Mail server logs
+	 /var/log/httpd/ : Apache access and error logs directory
+	 /var/log/apache2/ : Apache access and error logs directory
+	 /var/log/boot.log : System boot log
+	 /var/log/secure or /var/log/auth.log : Authentication log
+	 /var/log/utmp or /var/log/wtmp : Login records file
+ # see last command
+
+	 /var/log/faillog
+ # see faillog command
+
+
+# grep out all of my commands to see attackers
+ sed '/Nov 17/d' /var/log/messages
+
+
+ sudo cat /var/log/postgresql/postgresql-8.3-main.log > log_postregsql.txt
+ cat /var/log/apache2/error.log > log_apache2_error.txt
+ sed '/Nov 17/d' /var/log/messages > general_attacker_logs.txt
+ cat /var/log/auth.log > log_auth.txt
+ cat /var/log/kern.log > log_kernel.txt
+ cat /var/log/mail.log > log_mail.txt
+ cat /var/log/user.log > log_messages_about_all_user_level_logs.txt
+ last > login_history.txt
+ lastb > bad_logins.txt
+ history > bash_history.txt
+ stat ~/.bash_history > bash_history_modification_and_creation.txt
+ lastlog > log_last_logins.txt
+ cat /var/log/apache2/access.log > log_apache2_access.txt
+ cat /var/log/apache2/error.log > log_apache2_error.txt
+ sudo cat ~/.bash_history > arnold_bash_history.txt
+
+
+bill:
+	sudo ls -R -al /home/bill > all_files.txt
+	sudo cat /home/bill/.bash_history > bill_bash_history.txt
+
+
+charlie:
+	sudo ls -R -al /home/charlie > all_files.txt
+
+sudoers:
+	sudo cat /etc/sudoers > sudoers
+	grep '^admin:' /etc/group > all_sudoers.txt
+	sudo cat /home/charlie/.ssh/authorized_keys > charlie_authorized_keys
+
+
+to copy into kali:
+scp -oKexAlgorithms=+diffie-hellman-group1-sha1 -c aes256-cbc arnold@192.168.111.129:a3.zip .
+
+
+how do i get the password when:
+gpg --decrypt /home/bill/myPrivateFiles
+
+strange behavioure
+Nov 10 08:38:35 ubuntuA3 su[14993]: Successful su for arnold by bill
+Nov 10 08:38:35 ubuntuA3 su[14993]: + pts/1 bill:arnold
+
+strange postgres behaviour
+2020-11-10 18:33:58 EST STATEMENT:  select * from account where username like bill
+
+2020-11-11 12:52:38 EST ERROR:  syntax error at or near "something" at character 81
+2020-11-11 12:52:38 EST STATEMENT:  SELECT id, username, firstName, lastName, passwd FROM account WHERE username='' something ' AND passwd=''
+2020-11-11 12:52:38 EST ERROR:  unnamed prepared statement does not exist
+2020-11-11 12:54:09 EST ERROR:  unterminated quoted string at or near "' AND passwd=''" at character 89
+2020-11-11 12:54:09 EST STATEMENT:  SELECT id, username, firstName, lastName, passwd FROM account WHERE username=' ' OR 1=1;' AND passwd=''
+2020-11-11 12:54:09 EST ERROR:  unnamed prepared statement does not exist
+2020-11-11 13:06:21 EST ERROR:  syntax error at or near "something" at character 44
+2020-11-11 13:06:21 EST STATEMENT:  SELECT * FROM solution WHERE expression='' something --'
+2020-11-11 13:06:21 EST ERROR:  unnamed prepared statement does not exist
+2020-11-11 13:06:21 EST ERROR:  syntax error at or near "something" at character 67
+2020-11-11 13:06:21 EST STATEMENT:  insert into solution (value, expression, accountId) values (3, '' something --', 1)
+
+
+strange apache behavioure:
+172.16.107.140 - - [11/Nov/2020:13:19:28 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27bill%25%27+and+passwd+like+%27%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65442 "-" "Python-urllib/3.8"
+172.16.107.140 - - [11/Nov/2020:13:19:28 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27billa%25%27+and+passwd+like+%27%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 590 "-" "Python-urllib/3.8"
+172.16.107.140 - - [11/Nov/2020:13:19:28 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27billb%25%27+and+passwd+like+%27%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 590 "-" "Python-urllib/3.8"
+
+
+who is logged in at this time?
+bill     pts/0        172.16.107.140   Wed Nov 11 13:24 - 14:18  (00:53)
+
+so bill, or an attacker impersonating him logged in and ran sql injections on four fours
+http://192.168.111.129/fourFours/index.php
+
+notes from oh:
+		logged into fourfours without any credentials
+
+		- hints for logs:
+			- grep
+			- find (when things change )
+
+
+grep:
+	sudo grep "2020-11-11"  postgresql/postgresql-8.3-main.log

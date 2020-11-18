@@ -1,0 +1,263 @@
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                     How HACKER gained access                          +
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Please outline the steps the attacker took to gain access to the system.
+This can be broken down into different phases, based on their efforts
+to elevate privileges. Fill in the sections below that apply.
+
++-----------------------------------------------------------------------+
+| As unprivileged (system or services user) attackers approach was      |
++-----------------------------------------------------------------------+
+	A description of hackers approach, while an unprivileged user.
+
+		YOUR ANSWER GOES HERE
+
+		On November 11 at 12:46:27 someone issued a get request to the fourFours
+		application and recieved the fourFours index page. They then tried issuing
+		several commands to the server like logout and deleteExpression. They are also
+		attempting sql injections on the application.
+
+		Then at 12:51:31 the attacker switches to another machine or something
+		that causes his ip address to change from 172.16.107.1 to 172.16.107.140.
+		Then at 13:19:26 the attacker begins issuing login requests to the server
+		using sql injections probably using sql map. The attacker brute forces for a
+		username and password pair.
+
+		We can see the attacker succeeded because when executing the last command to check
+		logins, we can see the attacker with ip address 172.16.107.140 sign in as bill from
+		13:24 - 14:18 (all on Nov 11).
+
+	-----------------------------------------------------------------
+	How I know: (command I executed, sample of the evidence, explanation)
+	-----------------------------------------------------------------
+	COMMAND: grep 11/Nov/2020 /var/log/apache2/access.log | head -n 60
+
+					sudo grep 2020-11-11  postgresql/postgresql-8.3-main.log | tail -n 17
+					# sql commands, trying to inject
+
+					grep 11/Nov/2020 /var/log/apache2/access.log | head -n 60
+
+
+					 nc 192.168.111.129 80
+				   GET /fourFours/index.php HTTP/1.0
+
+
+					 last
+					 # command to check last logins
+
+
+	EVIDENCE: (sample of the evidence)
+
+		YOUR ANSWER GOES HERE
+
+	EXPLANATION: (explain the evidence)
+
+		YOUR ANSWER GOES HERE
+
+	-----------------------------------------------------------------
+	COMMAND: sudo grep 2020-11-11  postgresql/postgresql-8.3-main.log | tail -n 17
+
+	EVIDENCE: (sample of the evidence)
+
+		YOUR ANSWER GOES HERE
+
+	EXPLANATION: (explain the evidence)
+
+		YOUR ANSWER GOES HERE
+
+
+	-----------------------------------------------------------------
+	COMMAND: last
+
+	EVIDENCE: (sample of the evidence)
+
+		YOUR ANSWER GOES HERE
+
+	EXPLANATION: (explain the evidence)
+
+		YOUR ANSWER GOES HERE
+	-----------------------------------------------------------------
+
++-----------------------------------------------------------------------+
+| As Privileged for SERVICE the attackers approach was                  |
++-----------------------------------------------------------------------+
+	First SERVICE account broken: YOUR ANSWER GOES HERE
+	Date and time attacker broke account: YOUR ANSWER GOES HERE
+	Evidence for the above (command, output, explanation):
+
+		YOUR ANSWER GOES HERE
+
+	-----------------------------------------------------------------
+	A description of hackers approach, while an unprivileged user.
+
+		YOUR ANSWER GOES HERE
+
+	-----------------------------------------------------------------
+	How I know: (command I executed, sample of the evidence, explanation)
+	-----------------------------------------------------------------
+	COMMAND: YOUR ANSWER GOES HERE
+
+	EVIDENCE: (sample of the evidence)
+
+		YOUR ANSWER GOES HERE
+
+	EXPLANATION: (explain the evidence)
+
+		YOUR ANSWER GOES HERE
+
+	-----------------------------------------------------------------
+	COMMAND: YOUR ANSWER GOES HERE
+
+	EVIDENCE: (sample of the evidence)
+
+		YOUR ANSWER GOES HERE
+
+	EXPLANATION: (explain the evidence)
+
+		YOUR ANSWER GOES HERE
+	-----------------------------------------------------------------
+
++-----------------------------------------------------------------------+
+| As a system user: before obtaining root                               |
++-----------------------------------------------------------------------+
+	First system account broken: YOUR ANSWER GOES HERE
+	Date and time attacker broke account: YOUR ANSWER GOES HERE
+	Evidence for the above (command, output, explanation):
+
+		YOUR ANSWER GOES HERE
+
+	-----------------------------------------------------------------
+	A description of hackers approach, while an unprivileged user.
+
+		YOUR ANSWER GOES HERE
+
+	-----------------------------------------------------------------
+	How I know: (command I executed, sample of the evidence, explanation)
+	-----------------------------------------------------------------
+	COMMAND: YOUR ANSWER GOES HERE
+
+	EVIDENCE: (sample of the evidence)
+
+		YOUR ANSWER GOES HERE
+
+	EXPLANATION: (explain the evidence)
+
+		YOUR ANSWER GOES HERE
+
+	-----------------------------------------------------------------
+	COMMAND: YOUR ANSWER GOES HERE
+
+	EVIDENCE: (sample of the evidence)
+
+		YOUR ANSWER GOES HERE
+
+	EXPLANATION: (explain the evidence)
+
+		YOUR ANSWER GOES HERE
+	-----------------------------------------------------------------
+
++-----------------------------------------------------------------------+
+| Privilege: Got root!!!                                                |
++-----------------------------------------------------------------------+
+	First system account broken: YOUR ANSWER GOES HERE
+	Date and time attacker broke account: YOUR ANSWER GOES HERE
+	Evidence for the above (command, output, explanation):
+
+		YOUR ANSWER GOES HERE
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                          System Changes                               +
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+-------------------------------------------------------------------------
+HACKER CHANGED:
+
+EVIDENCE:
+
+WHY:
+
+IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+HACKER CHANGED:
+
+EVIDENCE:
+
+WHY:
+
+IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+HACKER CHANGED:
+
+EVIDENCE:
+
+WHY:
+
+IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+HACKER CHANGED:
+
+EVIDENCE:
+
+WHY:
+
+IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+HACKER CHANGED:
+
+EVIDENCE:
+
+WHY:
+
+IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+HACKER CHANGED:
+
+EVIDENCE:
+
+WHY:
+
+IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+HACKER CHANGED:
+
+EVIDENCE:
+
+WHY:
+
+IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+HACKER CHANGED:
+
+EVIDENCE:
+
+WHY:
+
+IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+HACKER CHANGED:
+
+EVIDENCE:
+
+WHY:
+
+IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+HACKER CHANGED:
+
+EVIDENCE:
+
+WHY:
+
+IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+-------------------------------------------------------------------------
