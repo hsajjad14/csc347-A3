@@ -28,55 +28,167 @@ to elevate privileges. Fill in the sections below that apply.
 		logins, we can see the attacker with ip address 172.16.107.140 sign in as bill from
 		13:24 - 14:18 (all on Nov 11).
 
+		So the attacker as unprivileged became a privileged user.
+
 	-----------------------------------------------------------------
 	How I know: (command I executed, sample of the evidence, explanation)
 	-----------------------------------------------------------------
 	COMMAND: grep 11/Nov/2020 /var/log/apache2/access.log | head -n 60
 
-					sudo grep 2020-11-11  postgresql/postgresql-8.3-main.log | tail -n 17
-					# sql commands, trying to inject
-
-					grep 11/Nov/2020 /var/log/apache2/access.log | head -n 60
-
-
-					 nc 192.168.111.129 80
-				   GET /fourFours/index.php HTTP/1.0
-
-
-					 last
-					 # command to check last logins
-
-
 	EVIDENCE: (sample of the evidence)
 
-		YOUR ANSWER GOES HERE
+					127.0.0.1 - - [11/Nov/2020:10:27:12 -0500] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.2.8 (Ubuntu) PHP/5.2.4-2ubuntu5.27 with Suhosin-Patch (internal dummy connection)"
+																											...
+					127.0.0.1 - - [11/Nov/2020:10:29:59 -0500] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.2.8 (Ubuntu) PHP/5.2.4-2ubuntu5.27 with Suhosin-Patch (internal dummy connection)"
+					127.0.0.1 - - [11/Nov/2020:10:29:59 -0500] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.2.8 (Ubuntu) PHP/5.2.4-2ubuntu5.27 with Suhosin-Patch (internal dummy connection)"
+					172.16.107.1 - - [11/Nov/2020:12:46:27 -0500] "GET /fourFours/index.php HTTP/1.1" 200 523 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.0) Gecko/20100101 Firefox/82.0"
+					172.16.107.1 - - [11/Nov/2020:12:46:38 -0500] "POST /fourFours/index.php HTTP/1.1" 200 65605 "http://172.16.107.138/fourFours/index.php" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.0) Gecko/20100101 Firefox/82.0"
+					172.16.107.1 - - [11/Nov/2020:12:46:49 -0500] "POST /fourFours/index.php HTTP/1.1" 200 65771 "http://172.16.107.138/fourFours/index.php" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.0) Gecko/20100101 Firefox/82.0"
+					172.16.107.1 - - [11/Nov/2020:12:46:59 -0500] "POST /fourFours/index.php HTTP/1.1" 200 65939 "http://172.16.107.138/fourFours/index.php" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.0) Gecko/20100101 Firefox/82.0"
+					172.16.107.1 - - [11/Nov/2020:12:47:03 -0500] "POST /fourFours/index.php HTTP/1.1" 200 66100 "http://172.16.107.138/fourFours/index.php" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.0) Gecko/20100101 Firefox/82.0"
+					172.16.107.1 - - [11/Nov/2020:12:47:08 -0500] "GET /fourFours/index.php?operation=deleteExpression&expressionId=6&accountId=1 HTTP/1.1" 200 65939 "http://172.16.107.138/fourFours/index.php" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.0) Gecko/20100101 Firefox/82.0"
+					172.16.107.1 - - [11/Nov/2020:12:47:35 -0500] "POST /fourFours/index.php?operation=deleteExpression&expressionId=6&accountId=1 HTTP/1.1" 200 66107 "http://172.16.107.138/fourFours/index.php?operation=deleteExpression&expressionId=6&accountId=1" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.0) Gecko/20100101 Firefox/82.0"
+					172.16.107.1 - - [11/Nov/2020:12:47:36 -0500] "GET /fourFours/index.php?operation=logout HTTP/1.1" 200 523 "http://172.16.107.138/fourFours/index.php?operation=deleteExpression&expressionId=6&accountId=1" "
+					172.16.107.1 - - [11/Nov/2020:12:47:43 -0500] "POST /fourFours/index.php?operation=logout HTTP/1.1" 200 65418 "http://172.16.107.138/fourFours/index.php?operation=logout" "Mozilla/5.0 (X11; Ubuntu; Linux x8
+					172.16.107.1 - - [11/Nov/2020:12:47:53 -0500] "POST /fourFours/index.php?operation=logout HTTP/1.1" 200 65589 "http://172.16.107.138/fourFours/index.php?operation=logout" "Mozilla/5.0 (X11; Ubuntu; Linux x8
+					172.16.107.1 - - [11/Nov/2020:12:48:06 -0500] "POST /fourFours/index.php?operation=logout HTTP/1.1" 200 65758 "http://172.16.107.138/fourFours/index.php?operation=logout" "Mozilla/5.0 (X11; Ubuntu; Linux x8
+					172.16.107.1 - - [11/Nov/2020:12:48:44 -0500] "POST /fourFours/index.php?operation=logout HTTP/1.1" 200 65928 "http://172.16.107.138/fourFours/index.php?operation=logout" "Mozilla/5.0 (X11; Ubuntu; Linux x8
+					172.16.107.1 - - [11/Nov/2020:12:48:52 -0500] "GET /fourFours/index.php?operation=deleteExpression&expressionId=9&accountId=8 HTTP/1.1" 200 65759 "http://172.16.107.138/fourFours/index.php?operation=logout"
+					172.16.107.1 - - [11/Nov/2020:12:48:55 -0500] "GET /fourFours/index.php?operation=logout HTTP/1.1" 200 523 "http://172.16.107.138/fourFours/index.php?operation=deleteExpression&expressionId=9&accountId=8" "
+					172.16.107.140 - - [11/Nov/2020:12:51:31 -0500] "GET /fourFours/index.php HTTP/1.1" 200 523 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0"
+					172.16.107.140 - - [11/Nov/2020:12:51:38 -0500] "POST /fourFours/index.php HTTP/1.1" 200 540 "http://172.16.107.138/fourFours/index.php" "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0
+					172.16.107.140 - - [11/Nov/2020:12:51:48 -0500] "POST /fourFours/index.php HTTP/1.1" 200 545 "http://172.16.107.138/fourFours/index.php" "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0
+					172.16.107.140 - - [11/Nov/2020:12:52:10 -0500] "POST /fourFours/index.php HTTP/1.1" 200 541 "http://172.16.107.138/fourFours/index.php" "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0
+					172.16.107.140 - - [11/Nov/2020:12:52:38 -0500] "POST /fourFours/index.php HTTP/1.1" 200 1285 "http://172.16.107.138/fourFours/index.php" "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.
+					172.16.107.140 - - [11/Nov/2020:12:54:09 -0500] "POST /fourFours/index.php HTTP/1.1" 200 1303 "http://172.16.107.138/fourFours/index.php" "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.
+					172.16.107.140 - - [11/Nov/2020:12:54:19 -0500] "GET /fourFours/delete.png HTTP/1.1" 200 14624 "http://172.16.107.138/fourFours/index.php" "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68
+					172.16.107.140 - - [11/Nov/2020:12:54:19 -0500] "POST /fourFours/index.php HTTP/1.1" 200 66217 "http://172.16.107.138/fourFours/index.php" "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68
+					172.16.107.140 - - [11/Nov/2020:13:02:19 -0500] "POST /fourFours/index.php HTTP/1.1" 200 66249 "http://172.16.107.138/fourFours/index.php" "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68
+					172.16.107.140 - - [11/Nov/2020:13:02:37 -0500] "POST /fourFours/index.php HTTP/1.1" 200 66384 "http://172.16.107.138/fourFours/index.php" "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68
+					172.16.107.140 - - [11/Nov/2020:13:04:12 -0500] "GET /fourFours/index.php?operation=deleteExpression&expressionId=4&accountId=1 HTTP/1.1" 200 66218 "http://172.16.107.138/fourFours/index.php" "Mozilla/5.0 (
+					172.16.107.140 - - [11/Nov/2020:13:06:21 -0500] "POST /fourFours/index.php?operation=deleteExpression&expressionId=4&accountId=1 HTTP/1.1" 200 67518 "http://172.16.107.138/fourFours/index.php?operation=deleGecko/20100101 Firefox/68.0"
+					172.16.107.140 - - [11/Nov/2020:13:07:27 -0500] "GET /fourFours/index.php?operation=logout HTTP/1.1" 200 523 "http://172.16.107.138/fourFours/index.php?operation=deleteExpression&expressionId=4&accountId=1"
+					172.16.107.140 - - [11/Nov/2020:13:08:41 -0500] "POST /fourFours/index.php?operation=logout HTTP/1.1" 200 1250 "http://172.16.107.138/fourFours/index.php?operation=logout" "Mozilla/5.0 (X11; Linux x86_64; r
+					172.16.107.140 - - [11/Nov/2020:13:09:53 -0500] "POST /fourFours/index.php?operation=logout HTTP/1.1" 200 65530 "http://172.16.107.138/fourFours/index.php?operation=logout" "Mozilla/5.0 (X11; Linux x86_64;
+					172.16.107.140 - - [11/Nov/2020:13:11:10 -0500] "POST /fourFours/index.php?operation=logout HTTP/1.1" 200 65712 "http://172.16.107.138/fourFours/index.php?operation=logout" "Mozilla/5.0 (X11; Linux x86_64;
+					172.16.107.140 - - [11/Nov/2020:13:13:35 -0500] "GET /fourFours/index.php?operation=deleteExpression&expressionId=1&accountId=1 HTTP/1.1" 200 65663 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/201001
+					172.16.107.140 - - [11/Nov/2020:13:13:43 -0500] "GET /fourFours/index.php?operation=deleteExpression&expressionId=2&accountId=1 HTTP/1.1" 200 65608 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/201001
+					172.16.107.140 - - [11/Nov/2020:13:13:49 -0500] "GET /fourFours/index.php?operation=deleteExpression&expressionId=3&accountId=1 HTTP/1.1" 200 65561 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/201001
+					172.16.107.140 - - [11/Nov/2020:13:15:46 -0500] "GET /fourFours/index.php?operation=logout HTTP/1.1" 200 523 "http://172.16.107.138/fourFours/index.php?operation=deleteExpression&expressionId=3&accountId=1"
+					172.16.107.140 - - [11/Nov/2020:13:15:49 -0500] "POST /fourFours/index.php?operation=logout HTTP/1.1" 200 65788 "http://172.16.107.138/fourFours/index.php?operation=logout" "Mozilla/5.0 (X11; Linux x86_64;
+					172.16.107.140 - - [11/Nov/2020:13:16:02 -0500] "GET /fourFours/index.php?operation=logout HTTP/1.1" 200 523 "http://172.16.107.138/fourFours/index.php?operation=logout" "Mozilla/5.0 (X11; Linux x86_64; rv:
+					172.16.107.140 - - [11/Nov/2020:13:17:16 -0500] "POST /fourFours/index.php?operation=logout HTTP/1.1" 200 566 "http://172.16.107.138/fourFours/index.php?operation=logout" "Mozilla/5.0 (X11; Linux x86_64; rv
+					172.16.107.140 - - [11/Nov/2020:13:17:31 -0500] "POST /fourFours/index.php?operation=logout HTTP/1.1" 200 565 "http://172.16.107.138/fourFours/index.php?operation=logout" "Mozilla/5.0 (X11; Linux x86_64; rv
+					172.16.107.140 - - [11/Nov/2020:13:18:12 -0500] "POST /fourFours/index.php?operation=logout HTTP/1.1" 200 567 "http://172.16.107.138/fourFours/index.php?operation=logout" "Mozilla/5.0 (X11; Linux x86_64; rv
+					172.16.107.140 - - [11/Nov/2020:13:18:33 -0500] "POST /fourFours/index.php?operation=logout HTTP/1.1" 200 65788 "http://172.16.107.138/fourFours/index.php?operation=logout" "Mozilla/5.0 (X11; Linux x86_64;
+					172.16.107.140 - - [11/Nov/2020:13:19:26 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27aa%25%27+and+passwd+like+%27%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 587 "-" "Python-
+					172.16.107.140 - - [11/Nov/2020:13:19:26 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27ab%25%27+and+passwd+like+%27%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 587 "-" "Python-
+					172.16.107.140 - - [11/Nov/2020:13:19:26 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27ac%25%27+and+passwd+like+%27%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 587 "-" "Python-
+					172.16.107.140 - - [11/Nov/2020:13:19:26 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27ad%25%27+and+passwd+like+%27%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 587 "-" "Python-
+					172.16.107.140 - - [11/Nov/2020:13:19:26 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27ae%25%27+and+passwd+like+%27%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 587 "-" "Python-
+					172.16.107.140 - - [11/Nov/2020:13:19:26 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27af%25%27+and+passwd+like+%27%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 587 "-" "Python-
+					172.16.107.140 - - [11/Nov/2020:13:19:26 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27ag%25%27+and+passwd+like+%27%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 587 "-" "Python-
+					172.16.107.140 - - [11/Nov/2020:13:19:26 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27ah%25%27+and+passwd+like+%27%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 587 "-" "Python-
+					172.16.107.140 - - [11/Nov/2020:13:19:26 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27ai%25%27+and+passwd+like+%27%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 587 "-" "Python-
+					172.16.107.140 - - [11/Nov/2020:13:19:26 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27aj%25%27+and+passwd+like+%27%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 587 "-" "Python-
+
 
 	EXPLANATION: (explain the evidence)
 
-		YOUR ANSWER GOES HERE
+		In this apache2/access.log we can see the attacker send a get request to the server for the fourFours
+		application, then after some probing of the login and deleteExpression they
+		try to brute force out a username and password, as is clear towards the end of the above
+		snippet.
 
 	-----------------------------------------------------------------
-	COMMAND: sudo grep 2020-11-11  postgresql/postgresql-8.3-main.log | tail -n 17
+	COMMAND: sudo grep 2020-11-11  /var/log/postgresql/postgresql-8.3-main.log | tail -n 17
+			# then enter as password: csc347GreatStuff!
 
 	EVIDENCE: (sample of the evidence)
 
-		YOUR ANSWER GOES HERE
+						2020-11-11 12:43:43 EST LOG:  incomplete startup packet
+						2020-11-11 12:52:38 EST ERROR:  syntax error at or near "something" at character 81
+						2020-11-11 12:52:38 EST STATEMENT:  SELECT id, username, firstName, lastName, passwd FROM account WHERE username='' something ' AND passwd=''
+						2020-11-11 12:52:38 EST ERROR:  unnamed prepared statement does not exist
+						2020-11-11 12:54:09 EST ERROR:  unterminated quoted string at or near "' AND passwd=''" at character 89
+						2020-11-11 12:54:09 EST STATEMENT:  SELECT id, username, firstName, lastName, passwd FROM account WHERE username=' ' OR 1=1;' AND passwd=''
+						2020-11-11 12:54:09 EST ERROR:  unnamed prepared statement does not exist
+						2020-11-11 13:06:21 EST ERROR:  syntax error at or near "something" at character 44
+						2020-11-11 13:06:21 EST STATEMENT:  SELECT * FROM solution WHERE expression='' something --'
+						2020-11-11 13:06:21 EST ERROR:  unnamed prepared statement does not exist
+						2020-11-11 13:06:21 EST ERROR:  syntax error at or near "something" at character 67
+						2020-11-11 13:06:21 EST STATEMENT:  insert into solution (value, expression, accountId) values (3, '' something --', 1)
+						2020-11-11 13:06:21 EST ERROR:  unnamed prepared statement does not exist
+						2020-11-11 13:08:41 EST ERROR:  cannot insert multiple commands into a prepared statement
+						2020-11-11 13:08:41 EST STATEMENT:  SELECT id, username, firstName, lastName, passwd FROM account WHERE username='' OR 1=1; UPDATE solution SET expression=(SELECT username FROM account LIMIT 1) WHERE expressionId=4;--' AND passwd=''
+						2020-11-11 13:08:41 EST ERROR:  unnamed prepared statement does not exist
+						2020-11-13 08:14:24 EST LOG:  database system was interrupted; last known up at 2020-11-11 13:18:42 EST
 
 	EXPLANATION: (explain the evidence)
 
-		YOUR ANSWER GOES HERE
-
+		The same time the attacker is logged in Nov 11 ~13:00:00 in the postgresql log we can see
+		these commands being passed to the database. So we can see the attacker injecting
+		sql queries to get error messages from the system.
 
 	-----------------------------------------------------------------
 	COMMAND: last
 
 	EVIDENCE: (sample of the evidence)
 
-		YOUR ANSWER GOES HERE
+						arnold   pts/1        192.168.111.128  Wed Nov 18 16:14   still logged in
+						arnold   pts/0        192.168.111.128  Wed Nov 18 16:14   still logged in
+						arnold   tty1                          Wed Nov 18 16:14   still logged in
+						arnold   tty1                          Wed Nov 18 16:14 - 16:14  (00:00)
+						reboot   system boot  2.6.24-26-server Wed Nov 18 16:13 - 16:33  (00:20)
+						bill     pts/0        172.16.107.140   Fri Nov 13 08:41 - down   (00:00)
+						reboot   system boot  2.6.24-26-server Fri Nov 13 08:41 - 08:41  (00:00)
+						bill     pts/0        172.16.107.140   Fri Nov 13 08:15 - down   (00:23)
+						reboot   system boot  2.6.24-26-server Fri Nov 13 08:14 - 08:38  (00:24)
+						bill     pts/0        172.16.107.140   Wed Nov 11 14:18 - 14:20  (00:02)
+						charlie  pts/1        172.16.107.140   Wed Nov 11 13:39 - 13:39  (00:00)
+						bill     pts/0        172.16.107.140   Wed Nov 11 13:24 - 14:18  (00:53)
+						reboot   system boot  2.6.24-26-server Wed Nov 11 12:43 - 08:38 (1+19:54)
+						arnold   pts/0        172.16.107.136   Wed Nov 11 10:28 - down   (00:01)
+						reboot   system boot  2.6.24-26-server Wed Nov 11 10:28 - 10:29  (00:01)
+						arnold   pts/0        172.16.107.136   Wed Nov 11 10:20 - down   (00:07)
+						bill     pts/0        172.16.107.136   Wed Nov 11 10:17 - 10:17  (00:00)
+						arnold   pts/0        172.16.107.136   Wed Nov 11 10:14 - 10:16  (00:02)
+						reboot   system boot  2.6.24-26-server Wed Nov 11 10:12 - 10:27  (00:14)
+						arnold   tty1                          Tue Nov 10 19:48 - down   (00:07)
+						arnold   tty1                          Tue Nov 10 19:48 - 19:48  (00:00)
+						reboot   system boot  2.6.24-26-server Tue Nov 10 19:48 - 19:56  (00:08)
+						reboot   system boot  2.6.24-26-server Tue Nov 10 19:08 - 19:56  (00:48)
+						arnold   tty1                          Tue Nov 10 19:06 - down   (00:00)
+						arnold   tty1                          Tue Nov 10 19:06 - 19:06  (00:00)
+						arnold   pts/0        172.16.107.136   Tue Nov 10 18:57 - 19:05  (00:07)
+						reboot   system boot  2.6.24-26-server Tue Nov 10 18:56 - 19:07  (00:11)
+						arnold   pts/0        172.16.107.1     Tue Nov 10 18:53 - down   (00:01)
+						reboot   system boot  2.6.24-26-server Tue Nov 10 18:53 - 18:55  (00:02)
+						arnold   tty1                          Tue Nov 10 18:39 - down   (00:00)
+						arnold   tty1                          Tue Nov 10 18:39 - 18:39  (00:00)
+						arnold   pts/0        172.16.107.136   Tue Nov 10 18:18 - 18:37  (00:18)
+						arnold   tty1                          Tue Nov 10 16:21 - 18:39  (02:17)
+						arnold   tty1                          Tue Nov 10 16:21 - 16:21  (00:00)
+						arnold   tty1                          Tue Nov 10 16:13 - 16:20  (00:07)
+						arnold   tty1                          Tue Nov 10 16:13 - 16:13  (00:00)
+						reboot   system boot  2.6.24-26-server Tue Nov 10 16:13 - 18:39  (02:26)
+						bill     pts/0        172.16.107.136   Tue Nov 10 13:19 - 13:19  (00:00)
+						bill     pts/1        172.16.107.136   Tue Nov 10 08:38 - down   (07:34)
+						bill     pts/0        172.16.107.136   Mon Nov  9 23:36 - 13:19  (13:43)
+						bill     pts/1        172.16.107.136   Mon Nov  9 23:10 - 23:19  (00:08)
+						arnold   pts/0        172.16.107.136   Mon Nov  9 23:02 - 23:36  (00:33)
+						arnold   tty1                          Mon Nov  9 22:50 - down   (17:22)
+						arnold   tty1                          Mon Nov  9 22:50 - 22:50  (00:00)
+						reboot   system boot  2.6.24-26-server Mon Nov  9 22:46 - 16:12  (17:25)
+
+						wtmp begins Mon Nov  9 22:46:41 2020
 
 	EXPLANATION: (explain the evidence)
 
-		YOUR ANSWER GOES HERE
+		Bill logs in on Nov 11 from 13:24 - 14:18, on ip address 172.16.107.140.
+		Since the time is right after the attacker finishes brute forcing (from apache log)
+		and the ip address is same as the attacker we can assume this is the attacker.
+
 	-----------------------------------------------------------------
 
 +-----------------------------------------------------------------------+
