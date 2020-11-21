@@ -16,6 +16,13 @@ def encrypt(plaintext, key):
 # FIX THIS FUNCTION
 def decrypt(ciphertext, key):
     plaintext=""
+    random.seed(key)
+    for j in range(len(ciphertext)):
+        c = ciphertext[j]
+        i = goodCharacters.index(c)
+        i = (i - random.randrange(len(goodCharacters))) % len(goodCharacters)
+        cp = goodCharacters[i]
+        plaintext = plaintext + cp
     return plaintext
 
 
@@ -26,20 +33,20 @@ def usage(message):
 
 def arg_parse():
     # arg length
-    if not len(sys.argv) == 4: 
+    if not len(sys.argv) == 4:
         usage("wrong number of arguments supplied")
         exit(1)
 
     operation = sys.argv[1] # either e for encrypt or d for decrypt
-    if operation not in ["e", "d"]: 
+    if operation not in ["e", "d"]:
         usage("OP must be e or d")
         exit(1)
 
-    filename = sys.argv[2] 
+    filename = sys.argv[2]
 
-    try: 
+    try:
         key = int(sys.argv[3]) # an integer
-    except: 
+    except:
         usage("KEY must be an integer")
         exit(1)
     return (operation, filename, key)

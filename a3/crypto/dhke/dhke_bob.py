@@ -31,3 +31,4 @@ print("I send Alice FIX_THIS", YOUR_VARIABLE)
 
 shared_secret=pow(gamodp, b, p) # FIX THIS
 print("Both Alice and I share the secret=", shared_secret)
+
