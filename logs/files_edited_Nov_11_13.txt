@@ -1,0 +1,55 @@
+/var/www/fourFours
+/var/lib/tripwire
+/var/lib/mysql/ibdata1
+/var/lib/postgresql/8.3/main/pg_subtrans/0000
+/var/lib/postgresql/8.3/main/pg_multixact/offsets/0000
+/var/lib/postgresql/8.3/main/base/16411/16464
+/var/lib/postgresql/8.3/main/base/16411/16478
+/var/lib/postgresql/8.3/main/base/16411/16474
+/var/lib/postgresql/8.3/main/base/16411/16480
+/var/lib/postgresql/8.3/main/base/16411/16472
+/var/lib/postgresql/8.3/main/pg_clog/0000
+/var/lib/postgresql/8.3/main/pg_xlog/000000010000000000000000
+/var/spool/cron/atjobs/a00001019882c9
+/var/log/dmesg.2
+/var/log/dmesg.4.gz
+/var/log/dmesg.3.gz
+/var/log/dmesg.0
+/var/log/dmesg.1
+/var/log/user.log
+find: /proc/6988/task/6988/fd/4: No such file or directory
+find: /proc/6988/task/6988/fdinfo/4: No such file or directory
+find: /proc/6988/fd/4: No such file or directory
+find: /proc/6988/fdinfo/4: No such file or directory
+/home
+/home/bill
+/home/bill/myPrivateFiles
+/home/bill/.bash_history
+/home/bill/.sudo_as_admin_successful
+/home/bill/.ssh
+/home/bill/.ssh/authorized_keys
+/home/bill/.gnupg
+/home/bill/.gnupg/gpg.conf
+/home/bill/.gnupg/secring.gpg
+/home/bill/.gnupg/random_seed
+/home/bill/.gnupg/pubring.gpg
+/home/arnold/.bash_history
+/home/arnold/mark.end
+/home/charlie
+/home/charlie/.profile
+/home/charlie/.bashrc
+/home/charlie/.ssh
+/home/charlie/.ssh/authorized_keys
+/home/charlie/.bash_logout
+/etc/cron.hourly
+/etc/cron.hourly/backup
+/etc/passwd-
+/etc/passwd
+/etc/group-
+/etc/group
+/etc/shadow
+/etc/gshadow-
+/etc/adjtime
+/etc/rc.local
+/etc/gshadow
+/root/.bash_history

@@ -130,7 +130,7 @@ find all files newer than mark.start and older than mark.end
 		or
 		touch /home/arnold/mark.start -d "2020-11-11 00:00"
 		touch /home/arnold/mark.end -d "2020-11-14 00:00"
-		sudo find / -newer /home/arnold/mark.start ! -newer /home/arnold/mark.end
+		sudo find / -newer /home/arnold/mark.start ! -newer /home/arnold/mark.end -exec ls -l {} \;| grep "2020-11-11"
 
 grep for when bill signed into fourFours:
  		grep "billGatesIsGreat%" /var/log/apache2/access.log
@@ -196,3 +196,20 @@ broken fourFours accounts:
 
 		grep "billGatesIsGreat%" /var/log/apache2/access.log
 		172.16.107.140 - - [11/Nov/2020:13:19:31 -0500] "GET /fourFours/index.php?user=%27+or+%28username+like+%27bill%25%27+and+passwd+like+%27billGatesIsGreat%25%27%29%3B+--&password=&operation=login HTTP/1.1" 200 65442 "-" "Python-urllib/3.8"
+
+attacker made changes :
+	/var/www/fourFours/.sh
+
+		- stat /var/www/fourFours/.sh
+		- access is at 2020-11-11 13:43
+		- since this is part of a cron job we modify it too
+
+grep "Nov 11" auth.log
+	 we can see attacker attempting to login to the system with anne then bill
+
+
+attacker gets root by:
+	su <command>
+		- so they can run commands as root
+
+	sudo ssh -i /home/charlie/.ssh/authorized_keys  charlie@localhost
