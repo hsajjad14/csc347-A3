@@ -27,8 +27,7 @@ print("Alice sent me (g**a)mod p=", gamodp)
 print("I (=Bob) choose a secret b=", b)
 
 YOUR_VARIABLE=pow(g, b, p) # FIX THIS, RENAME IT, GIVE IT THE RIGHT VALUE
-print("I send Alice FIX_THIS", YOUR_VARIABLE)
+print("I send Alice (g**b)mod p", YOUR_VARIABLE)
 
 shared_secret=pow(gamodp, b, p) # FIX THIS
 print("Both Alice and I share the secret=", shared_secret)
-
