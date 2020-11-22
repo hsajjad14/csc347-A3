@@ -368,6 +368,10 @@ to elevate privileges. Fill in the sections below that apply.
 
 			The attacker also made charlie part of the admin account using a cronjob to make charlie an admin.
 
+			Also I noticed there are many ports open for listening that don't need to be open.
+			One of these ports is the MySql port 3306, this doesn't need to be open as
+			MySql is never used by any services.
+
 	-----------------------------------------------------------------
 	How I know: (command I executed, sample of the evidence, explanation)
 	-----------------------------------------------------------------
@@ -390,7 +394,42 @@ to elevate privileges. Fill in the sections below that apply.
 
 		So we can see the attacker is root, because he can access /etc/shadow using
 		sudo.
-  -----------------------------------------------------------------
+	-----------------------------------------------------------------
+	COMMAND: netstat -tulpn | grep LISTEN
+					 cat syslog | grep "mysql" | grep "root"
+					 cat syslog | grep "mysql" | grep "port: "
+
+	EVIDENCE: (sample of the evidence)
+
+		command: netstat -tulpn | grep LISTEN
+			(No info could be read for "-p": geteuid()=1000 but you should be root.)
+			tcp        0      0 0.0.0.0:993             0.0.0.0:*               LISTEN      -
+			tcp        0      0 0.0.0.0:995             0.0.0.0:*               LISTEN      -
+			tcp        0      0 0.0.0.0:7779            0.0.0.0:*               LISTEN      -
+			tcp        0      0 0.0.0.0:7780            0.0.0.0:*               LISTEN      -
+			tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      -
+			tcp        0      0 0.0.0.0:110             0.0.0.0:*               LISTEN      -
+			tcp        0      0 0.0.0.0:143             0.0.0.0:*               LISTEN      -
+			tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      -
+			tcp        0      0 127.0.0.1:5432          0.0.0.0:*               LISTEN      -
+			tcp        0      0 0.0.0.0:25              0.0.0.0:*               LISTEN      -
+			tcp6       0      0 :::22                   :::*                    LISTEN      -
+
+		command: cat syslog | grep "mysql" | grep "root"
+		...
+		Nov 11 12:43:42 ubuntuA3 /etc/mysql/debian-start[5335]: Checking for insecure root accounts.
+		Nov 11 12:43:42 ubuntuA3 /etc/mysql/debian-start[5346]: WARNING: mysql.user contains 3 root accounts without password!
+		...
+
+		command: cat syslog | grep "mysql" | grep "port: "
+		Nov 11 12:43:41 ubuntuA3 mysqld[5278]: Version: '5.0.51a-3ubuntu5.4'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  (Ubuntu)
+
+	EXPLANATION: (explain the evidence)
+
+		So we can see the MySql port 3306 open with no need for it. It can be potentially dangerous
+		as an attacker can use it.
+		
+	-----------------------------------------------------------------
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +                          System Changes                               +
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

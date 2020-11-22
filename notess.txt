@@ -34,7 +34,7 @@
 # grep out all of my commands to see attackers
  sed '/Nov 17/d' /var/log/messages
 
-
+ netstat -tulpn | grep LISTEN
  sudo cat /var/log/postgresql/postgresql-8.3-main.log > log_postregsql.txt
  cat /var/log/apache2/error.log > log_apache2_error.txt
  sed '/Nov 17/d' /var/log/messages > general_attacker_logs.txt
