@@ -301,8 +301,7 @@ to elevate privileges. Fill in the sections below that apply.
 	How I know: (command I executed, sample of the evidence, explanation)
 	-----------------------------------------------------------------
 	COMMAND: sudo cat /var/www/fourFours/dev/schema.sql | grep "bill"
-
-					 grep "billGatesIsGreat%" /var/log/apache2/access.log
+	         grep "billGatesIsGreat%" /var/log/apache2/access.log
 
 	EVIDENCE: (sample of the evidence)
 
@@ -360,8 +359,8 @@ to elevate privileges. Fill in the sections below that apply.
 			So we can see by grepping for the attacker's ip address, the first time they signed in
 			as bill was Wed Nov 11 at 13:24, shortly after they broke the fourFours service at 13:19.
 
-			The attacker was able to get root because he was part of the admin group
-			so he could run commands using sudo using bill's password which he already knows.
+			The attacker was able to get root because he broke bill, who was part of the admin group.
+			So he could run commands using sudo using bill's password which he already knows.
 
 			Next attacker was able to break charlie's account by using root to attach a ssh key
 			in charlie's account so the attacker can sign in without needing charlie's password.
@@ -396,8 +395,8 @@ to elevate privileges. Fill in the sections below that apply.
 		sudo.
 	-----------------------------------------------------------------
 	COMMAND: netstat -tulpn | grep LISTEN
-					 cat syslog | grep "mysql" | grep "root"
-					 cat syslog | grep "mysql" | grep "port: "
+	         cat syslog | grep "mysql" | grep "root"
+	         cat syslog | grep "mysql" | grep "port: "
 
 	EVIDENCE: (sample of the evidence)
 
@@ -426,9 +425,9 @@ to elevate privileges. Fill in the sections below that apply.
 
 	EXPLANATION: (explain the evidence)
 
-		So we can see the MySql port 3306 open with no need for it. It can be potentially dangerous
+		So we can see the MySql port 3306 open with no need for it. It can be potentially dangerous,
 		as an attacker can use it.
-		
+
 	-----------------------------------------------------------------
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +                          System Changes                               +
@@ -502,8 +501,9 @@ WHY:
 			usermod -a -G admin charlie
 			at now + 2 weeks <<HERE
 	So he also forwards the system time so the cronjob run's right away. The reason
-	the attacker does is so if charlie gets removed from admin group by the system administrators they will just
-	get added back with the cronjob, this will happen unless the cronjob is deleted or charlie is removed from the system.
+	the attacker does this is firstly to maintain root status on the system. And secondly,
+	is if charlie gets removed from admin group by the system administrators they will just
+	get added back with the cronjob, this will keep happening unless the cronjob is deleted or charlie is removed from the system.
 
 IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
 
@@ -561,12 +561,12 @@ EVIDENCE:
 			When this was modified only the attacker was logged in to the system.
 
 WHY:
-	So we can see the attacker modifying his own bash_history.
+	So we can see the attacker modifying his own bash_history when he is bill.
 
 IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
 	The reason he didn't delete it all together is so he can add ransom-wear so the victim knows
 	enough of what the attacker did that they know the tripwire files are protected by a password
-	and the attacker can blackmail the victim for some money.
+	and the attacker can blackmail the victim for some money. Also he modified this file to hide his tracks.
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
 HACKER CHANGED: /root/.bash_history
@@ -608,7 +608,7 @@ EVIDENCE:
 			and the system doesn't modify this file.
 
 WHY:
-	The attacker modified this file. /etc/rc.local is usually run after boot.
+	The attacker modified this file. The file /etc/rc.local is usually run after boot.
 
 IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
 	Impact of this change is unknown.
@@ -629,8 +629,12 @@ EVIDENCE:
 			Change: 2020-11-11 13:40:18.000000000 -0500
 
 WHY:
+	The attacker added a ssh key as a backdoor to the system. If bill's password
+	gets changed, they can still get in. Also only the attacker can
+	use this backdoor because only he knows the password for the ssh key.
 
 IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+	The impact is to maintain access to the system.
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
 HACKER CHANGED: /etc/cron.hourly/backup
@@ -649,7 +653,7 @@ EVIDENCE:
 			Change: 2020-11-11 13:43:23.000000000 -0500
 
 			The attacker changed this file because at this time only he was online. And this file
-			couldn't have been made/changed with the system.
+			couldn't have been made/changed by the system.
 
 			command: sudo cat /etc/cron.hourly/backup
 			#!/bin/bash
