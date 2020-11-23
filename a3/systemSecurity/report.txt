@@ -342,7 +342,7 @@ to elevate privileges. Fill in the sections below that apply.
 	EXPLANATION: (explain the evidence)
 
 		We are able to get into the system using the username bill and password billGatesIsGreat,
-		the same username and password that was stored in the fourfours service and compromised 
+		the same username and password that was stored in the fourfours service and compromised
 		by the attacker.
 
 	-----------------------------------------------------------------
@@ -367,7 +367,7 @@ to elevate privileges. Fill in the sections below that apply.
 			So he could run commands using sudo using bill's password which he already knows.
 
 			Next, the attacker was able to break into charlie's account using sudo from bill's account to get root privilages
-			and attach a ssh key in charlie's account, so the attacker can sign into charlie's account without needing 
+			and attach a ssh key in charlie's account, so the attacker can sign into charlie's account without needing
 			charlie's password.
 
 			The attacker also made charlie part of the admin group using a cronjob to make charlie an admin.
@@ -396,7 +396,7 @@ to elevate privileges. Fill in the sections below that apply.
 
 	EXPLANATION: (explain the evidence)
 
-		Through running this command from bill's account, we can see the bill is root (and as a result the 
+		Through running this command from bill's account, we can see the bill is root (and as a result the
 		attacker is also root as they have access to bill's account) because he can access /etc/shadow using sudo.
 	-----------------------------------------------------------------
 	COMMAND: netstat -tulpn | grep LISTEN
@@ -468,7 +468,7 @@ EVIDENCE:
 
 WHY:
 	The attacker attached a ssh key to charlie so he can have a backdoor incase
-	his initial broken account (bill) gets deleted or the password is changed. 
+	his initial broken account (bill) gets deleted or the password is changed.
 	Also only the attacker can use this backdoor because only he knows the password for the ssh key.
 
 IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
@@ -681,13 +681,47 @@ IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, 
 
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
-HACKER CHANGED:
+HACKER CHANGED: /var/lib/php5
 
 EVIDENCE:
 
+			command: sudo stat /var/lib/php5
+
+			File: `/var/lib/php5'
+			Size: 372736          Blocks: 736        IO Block: 4096   directory
+			Device: 801h/2049d      Inode: 173188      Links: 2
+			Access: (1733/drwx-wx-wt)  Uid: (    0/    root)   Gid: (    0/    root)
+			Access: 2020-11-20 13:07:16.000000000 -0500
+			Modify: 2020-11-11 14:09:01.000000000 -0500
+			Change: 2020-11-11 14:09:01.000000000 -0500
+
+			This directory is where php stores it's cookies. It is clear the attacker is the one
+			who cleared it because he was online at this time.
+
+			command: last
+			bill     pts/0        172.16.107.140   Wed Nov 11 13:24 - 14:18  (00:53)
+
+			# After I make a fourFours session and login as someone, my session gets placed here
+			command: sudo ls -al /var/lib/php5
+			total 376
+			drwx-wx-wt  2 root     root     372736 2020-11-21 02:04 .
+			drwxr-xr-x 28 root     root       4096 2020-11-10 18:09 ..
+			-rw-------  1 www-data www-data     90 2020-11-21 02:04 sess_abe6d836effcffe48b077c69ae60182b
+
+			# After I turn the vm off, and reboot the session
+			command: sudo ls -al /var/lib/php5
+			total 376
+			drwx-wx-wt  2 root     root     372736 2020-11-21 02:04 .
+			drwxr-xr-x 28 root     root       4096 2020-11-10 18:09 ..
+			-rw-------  1 www-data www-data     90 2020-11-21 02:04 sess_abe6d836effcffe48b077c69ae60182b
+
+			# So my session remains after reboot
+
 WHY:
+	The attacker cleared all of his cookies for the fourFours service.
 
 IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
+	Impact of this is to hide his tracks.
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
 HACKER CHANGED:
