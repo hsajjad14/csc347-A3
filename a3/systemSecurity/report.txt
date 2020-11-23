@@ -23,8 +23,8 @@ to elevate privileges. Fill in the sections below that apply.
 		username and password pair.
 
 		We can see the attacker succeeded because when executing the last command to check
-		logins, we can see the attacker with ip address 172.16.107.140 sign in as bill from
-		13:24 - 14:18 (all on Nov 11).
+		logins, we can see the attacker with ip address 172.16.107.140 sign into the system
+		as bill from 13:24 - 14:18 (all on Nov 11).
 
 		So the attacker as unprivileged became a privileged user.
 
@@ -126,7 +126,7 @@ to elevate privileges. Fill in the sections below that apply.
 
 		The same time the attacker is logged in Nov 11 ~13:00:00 in the postgresql log we can see
 		these commands being passed to the database. So we can see the attacker injecting
-		sql queries to get error messages from the system.
+		sql queries to get error messages from the system and gain information about the database.
 
 	-----------------------------------------------------------------
 	COMMAND: last
@@ -183,7 +183,7 @@ to elevate privileges. Fill in the sections below that apply.
 
 	EXPLANATION: (explain the evidence)
 
-		Bill logs in on Nov 11 from 13:24 - 14:18, on ip address 172.16.107.140.
+		Bill logs in on Nov 11 from 13:24 - 14:18 with ip address 172.16.107.140.
 		Since the time is right after the attacker finishes brute forcing (from apache log)
 		and the ip address is same as the attacker we can assume this is the attacker.
 
@@ -201,7 +201,7 @@ to elevate privileges. Fill in the sections below that apply.
 	-----------------------------------------------------------------
 	A description of hackers approach, while an unprivileged user.
 
-		The hacker ran some sort of bruce force sql injection attack on the fourFours service.
+		The hacker ran some sort of brute force sql injection attack on the fourFours service.
 		Maybe done using sqlmap, as the service is sql injectable. They broke multiple accounts
 		for fourFours service using this method.
 
@@ -231,7 +231,8 @@ to elevate privileges. Fill in the sections below that apply.
 
 	EXPLANATION:
 
-		These are all the accounts and passwords for the service fourFours.
+		With this command we can see all the accounts and passwords stored in the database
+		for the service fourFours.
 
 	-----------------------------------------------------------------
 	COMMAND:
@@ -264,7 +265,8 @@ to elevate privileges. Fill in the sections below that apply.
 
 	EXPLANATION: (explain the evidence)
 
-		These are all the broken accounts for the service fourFours. We can see anne was the first one broken.
+		These are all the broken accounts for the service fourFours. We can see anne was the first one broken through the
+		sql attack sent from the hacker (same ip).
 		I made the commands by grepping for the password of each account in the database.
 
 	-----------------------------------------------------------------
@@ -292,7 +294,7 @@ to elevate privileges. Fill in the sections below that apply.
 	-----------------------------------------------------------------
 	A description of hackers approach, while an unprivileged user.
 
-		The hacker ran some sort of bruce force sql injection attack on the fourFours service.
+		The hacker ran some sort of brute force sql injection attack on the fourFours service.
 		Maybe done using sqlmap, as the service is sql injectable. They broke multiple accounts
 		for fourFours service using this method. One of these fourFours accounts happened to also
 		have a system account with the same password, so they got into the system this way.
@@ -313,7 +315,7 @@ to elevate privileges. Fill in the sections below that apply.
 
 		So we can see that bill is a user account in the fourFours service with password billGatesIsGreat.
 		We can also see from grepping for bill's password in the apache2 log that bill's account was broken
-		by the attacker (their ip-address and it was part of the brute force attack).
+		by the attacker through their brute force attack.
 
 	-----------------------------------------------------------------
 	COMMAND: ssh bill@192.168.111.129
@@ -339,7 +341,9 @@ to elevate privileges. Fill in the sections below that apply.
 
 	EXPLANATION: (explain the evidence)
 
-				So with username bill and password billGatesIsGreat we can get into the system.
+		We are able to get into the system using the username bill and password billGatesIsGreat,
+		the same username and password that was stored in the fourfours service and compromised 
+		by the attacker.
 
 	-----------------------------------------------------------------
 
@@ -359,13 +363,14 @@ to elevate privileges. Fill in the sections below that apply.
 			So we can see by grepping for the attacker's ip address, the first time they signed in
 			as bill was Wed Nov 11 at 13:24, shortly after they broke the fourFours service at 13:19.
 
-			The attacker was able to get root because he broke bill, who was part of the admin group.
+			The attacker was able to get root because he broke into bill's account, who was part of the admin group.
 			So he could run commands using sudo using bill's password which he already knows.
 
-			Next attacker was able to break charlie's account by using root to attach a ssh key
-			in charlie's account so the attacker can sign in without needing charlie's password.
+			Next, the attacker was able to break into charlie's account using sudo from bill's account to get root privilages
+			and attach a ssh key in charlie's account, so the attacker can sign into charlie's account without needing 
+			charlie's password.
 
-			The attacker also made charlie part of the admin account using a cronjob to make charlie an admin.
+			The attacker also made charlie part of the admin group using a cronjob to make charlie an admin.
 
 			Also I noticed there are many ports open for listening that don't need to be open.
 			One of these ports is the MySql port 3306, this doesn't need to be open as
@@ -391,8 +396,8 @@ to elevate privileges. Fill in the sections below that apply.
 
 	EXPLANATION: (explain the evidence)
 
-		So we can see the attacker is root, because he can access /etc/shadow using
-		sudo.
+		Through running this command from bill's account, we can see the bill is root (and as a result the 
+		attacker is also root as they have access to bill's account) because he can access /etc/shadow using sudo.
 	-----------------------------------------------------------------
 	COMMAND: netstat -tulpn | grep LISTEN
 	         cat syslog | grep "mysql" | grep "root"
@@ -425,8 +430,9 @@ to elevate privileges. Fill in the sections below that apply.
 
 	EXPLANATION: (explain the evidence)
 
-		So we can see the MySql port 3306 open with no need for it. It can be potentially dangerous,
-		as an attacker can use it.
+		We can see the MySql port 3306 open with no need for it. It can be potentially dangerous,
+		as an attacker can use it. We also see the warning that there are 3 root accounts without
+		password, which is another vulnerability.
 
 	-----------------------------------------------------------------
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -462,8 +468,8 @@ EVIDENCE:
 
 WHY:
 	The attacker attached a ssh key to charlie so he can have a backdoor incase
-	his initial broken account (bill) gets deleted. Also only the attacker can
-	use this backdoor because only he knows the password for the ssh key.
+	his initial broken account (bill) gets deleted or the password is changed. 
+	Also only the attacker can use this backdoor because only he knows the password for the ssh key.
 
 IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
 
@@ -503,7 +509,8 @@ WHY:
 	So he also forwards the system time so the cronjob run's right away. The reason
 	the attacker does this is firstly to maintain root status on the system. And secondly,
 	is if charlie gets removed from admin group by the system administrators they will just
-	get added back with the cronjob, this will keep happening unless the cronjob is deleted or charlie is removed from the system.
+	get added back with the cronjob, this will keep happening unless the cronjob is deleted/modified,
+	or charlie is removed from the system.
 
 IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
 
@@ -564,9 +571,9 @@ WHY:
 	So we can see the attacker modifying his own bash_history when he is bill.
 
 IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
-	The reason he didn't delete it all together is so he can add ransom-wear so the victim knows
+	The reason he didn't delete it all together is so he can add ransom-ware so the victim knows
 	enough of what the attacker did that they know the tripwire files are protected by a password
-	and the attacker can blackmail the victim for some money. Also he modified this file to hide his tracks.
+	and the attacker can blackmail the victim for money. Also he modified this file to hide his tracks.
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
 HACKER CHANGED: /root/.bash_history
@@ -630,7 +637,7 @@ EVIDENCE:
 
 WHY:
 	The attacker added a ssh key as a backdoor to the system. If bill's password
-	gets changed, they can still get in. Also only the attacker can
+	gets changed, they can still get in to the system. Also only the attacker can
 	use this backdoor because only he knows the password for the ssh key.
 
 IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
@@ -661,7 +668,7 @@ EVIDENCE:
 			/bin/cat /etc/passwd | /usr/bin/tr '[A-Za-z:]' '[N-ZA-Mn-za-m.]' > /var/www/fourFours/.pa
 
 WHY:
-	The attacker made a script which encrypts (just swaps characters) the shadow and passwd files
+	The attacker made a script which encrypts (rotates letters by 13 positions (rot13)) the shadow and passwd files
 	and stores them in /var/www/fourFours/.sh and /var/www/fourFours/.pa
 
 IMPACT OF CHANGE: (dos, maintain access, hide tracks, unknown, exfiltrate data, ...)
